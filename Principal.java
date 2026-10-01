@@ -1,5 +1,22 @@
+import java.util.Scanner;
+
 public class Principal {
     public static void main(String[] args) {
-        System.out.println("Hola muno");   
+        Scanner entrada = new Scanner(System.in);
+        int opcion;
+        opcion = entrada.nextInt();
+        entrada.nextLine();
+
+        do {
+            switch (opcion) {
+                case 1:
+                    
+                    break;
+            
+                default:
+                    break;
+            }
+            
+        } while (entrada != 0); 
     }
 }
