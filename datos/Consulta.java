@@ -10,6 +10,14 @@ public class Consulta {
     private String tratamiento;
     private Dueno dueno;
 
+    public Consulta(LocalDate fecha, String motivo, String diagnostico, String tratamiento, Dueno dueno) {
+        this.fecha = fecha;
+        this.motivo = motivo;
+        this.diagnostico = diagnostico;
+        this.tratamiento = tratamiento;
+        this.dueno = dueno;
+    }
+
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }

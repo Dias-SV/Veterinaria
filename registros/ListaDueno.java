@@ -4,16 +4,33 @@ import java.util.HashSet;
 import datos.Dueno;
 
 public class ListaDueno {
-    public static HashSet<Dueno> crearSet() {
-        HashSet<Dueno> hs = new HashSet<>();
-        hs.add(new Dueno("Carlos", 5512345678L, 1));
-        hs.add(new Dueno("Leslie", 5598765432L, 2));
-        return hs;
+    private static HashSet<Dueno> duenos = new HashSet<>();
+
+    static {
+        duenos.add(new Dueno("Carlos", 5512345678L, 1));
+        duenos.add(new Dueno("Leslie", 5598765432L, 2));
     }
 
-    public static void mostrarDuenos(HashSet<Dueno> duenos) {
+    public static HashSet<Dueno> getDuenos() {
+        return duenos;
+    }
+
+    public static void agregarDueno(Dueno dueno) {
+        duenos.add(dueno);
+    }
+
+    public static Dueno getDueno(String nombre) {
         for (Dueno dueno : duenos) {
-            System.out.println(dueno.getNombre());
+            if (dueno.getNombre().equalsIgnoreCase(nombre)) {
+                return dueno;
+            }
+        }
+        return null;
+    }
+
+    public static void mostrarDuenos() {
+        for (Dueno dueno : duenos) {
+            dueno.mostrarDueno();
         }
     }
 }
