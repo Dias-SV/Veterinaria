@@ -12,6 +12,10 @@ public class ListaMascota {
         return mascotas;
     }
 
+    public static void agregarMascota(Mascota mascota) {
+        mascotas.put(mascota.getId(), mascota);
+    }
+
     public static void mostrarMascotas() {
         for (Map.Entry<Integer, Mascota> mascota : mascotas.entrySet()) {
             System.out.println(mascota.getKey() + " -> " + mascota.getValue());

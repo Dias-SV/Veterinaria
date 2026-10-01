@@ -8,8 +8,10 @@ public class Mascota {
     private Dueno dueno;
     private int id;
 
-    public Mascota(String nombre, byte edad, int id) {
+    public Mascota(String nombre, String especie, String raza, byte edad, int id) {
         this.nombre = nombre;
+        this.especie = especie;
+        this.raza = raza;
         this.edad = edad;
         this.id = id;
     }
