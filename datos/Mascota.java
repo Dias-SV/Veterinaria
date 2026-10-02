@@ -1,16 +1,20 @@
 package datos;
 
+import java.util.ArrayList;
+
 public class Mascota {
     private String nombre;
     private String especie;
     private String raza;
     private byte edad;
+    private ArrayList<Consulta> consulta;
 
     public Mascota(String nombre, String especie, String raza, byte edad) {
         this.nombre = nombre;
         this.especie = especie;
         this.raza = raza;
         this.edad = edad;
+        consulta = new ArrayList<>();
     }
 
     public void setNombre(String nombre) {
@@ -39,6 +43,17 @@ public class Mascota {
     }
     public byte getEdad() {
         return edad;
+    }
+
+    public void setConsultas(ArrayList<Consulta> consulta) {
+        this.consulta = consulta;
+    }
+    public ArrayList<Consulta> getConsultas() {
+        return consulta;
+    }
+
+    public void agregarConsulta(Consulta consulta) {
+        this.consulta.add(consulta);
     }
 
     public void mostrarMascota() {

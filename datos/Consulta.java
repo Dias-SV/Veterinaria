@@ -8,14 +8,12 @@ public class Consulta {
     private String motivo;
     private String diagnostico;
     private String tratamiento;
-    private Dueno dueno;
 
-    public Consulta(LocalDate fecha, String motivo, String diagnostico, String tratamiento, Dueno dueno) {
+    public Consulta(LocalDate fecha, String motivo, String diagnostico, String tratamiento) {
         this.fecha = fecha;
         this.motivo = motivo;
         this.diagnostico = diagnostico;
         this.tratamiento = tratamiento;
-        this.dueno = dueno;
     }
 
     public void setFecha(LocalDate fecha) {
@@ -46,10 +44,10 @@ public class Consulta {
         return tratamiento;
     }
 
-    public void setDueno(Dueno dueno) {
-        this.dueno = dueno;
-    }
-    public Dueno getDueno() {
-        return dueno;
+    public void mostrarConsulta() {
+        System.out.println("Fecha: " + fecha);
+        System.out.println("Motivo: " + motivo);
+        System.out.println("Diagnostico: " + diagnostico);
+        System.out.println("Tratamiento: " + tratamiento);
     }
 }

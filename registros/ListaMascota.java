@@ -6,7 +6,7 @@ import java.util.HashSet;
 public class ListaMascota {
     private HashSet<Mascota> mascotas;
 
-    public void crearMap() {
+    public void crearSet() {
         this.mascotas = new HashSet<>();
     }
 
@@ -15,7 +15,16 @@ public class ListaMascota {
     }
 
     public void agregarMascota(Mascota mascota) {
-        mascotas.add(mascota);
+        this.mascotas.add(mascota);
+    }
+
+    public Mascota getMascota(String nombre) {
+        for (Mascota mascota : mascotas) {
+            if (mascota.getNombre().equals(nombre)) {
+                return mascota;
+            }
+        }
+        return null;
     }
 
     public void mostrarMascotas() {

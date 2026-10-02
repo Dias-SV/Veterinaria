@@ -1,17 +1,18 @@
 package datos;
 
 import java.util.HashSet;
+import registros.ListaMascota;
 
 public class Dueno {
     private String nombre;
     private long telefono;
     private Direccion direccion;
-    private HashSet<Mascota> mascota;
+    private ListaMascota mascota;
 
     public Dueno(String nombre, long telefono) {
         this.nombre = nombre;
         this.telefono = telefono;
-        mascota = new HashSet<>();
+        this.mascota.crearSet();
     }
 
     public void setNombre(String nombre) {
@@ -35,15 +36,15 @@ public class Dueno {
         return direccion;
     }
 
-    public void setMascota(HashSet<Mascota> mascota) {
+    public void setMascota(ListaMascota mascota) {
         this.mascota = mascota;
     }
-    public HashSet<Mascota> getMascota() {
+    public ListaMascota getMascota() {
         return mascota;
     }
 
     public void agregarMascota(Mascota mascota) {
-        this.mascota.add(mascota);
+        this.mascota.agregarMascota(mascota);;
     }
 
     public void mostrarDueno() {

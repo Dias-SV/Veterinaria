@@ -29,7 +29,7 @@ public class Principal {
                     if (duenos.isEmpty()) {
                         System.out.println("No hay dueños registrados");
                     } else {
-                        registrarCita();
+                        registrarConsulta();
                     }
                     break;
 
@@ -61,6 +61,13 @@ public class Principal {
                                     } else {
                                         System.out.print("Numero de telefono de dueño: ");
                                         long telefono = entrada.nextLong();
+                                        Dueno dueno = duenos.get(telefono);
+                                        while (dueno == null) {
+                                            System.out.println("No hay ningun dueño registrado con ese nombre");
+                                            System.out.print("Ingrese el numero de telefono del dueño: ");
+                                            telefono = entrada.nextLong();
+                                            dueno = duenos.get(telefono);
+                                        }
                                         System.out.println("-----Datos-----\n");
                                         System.out.println("1. Modificar dueño");
                                         System.out.println("2. Modificar mascota");
@@ -98,7 +105,7 @@ public class Principal {
         } while (opcionM != 0); 
     }
     
-    public static void registrarCita() {
+    public static void registrarConsulta() {
         System.out.println("Ingrese la fecha (dd/mm/aaaa)");
         System.out.print("Dia: ");
         int dia = entrada.nextInt();
@@ -114,9 +121,9 @@ public class Principal {
         String diagnostico = entrada.nextLine();
         System.out.print("Ingrese el tratamiento: ");
         String tratamiento = entrada.nextLine();
+        
         System.out.print("Ingrese el numero de telefono del dueño: ");
         long telefono = entrada.nextLong();
-
         Dueno dueno = duenos.get(telefono);
         while (dueno == null) {
             System.out.println("No hay ningun dueño registrado con ese nombre");
@@ -125,7 +132,17 @@ public class Principal {
             dueno = duenos.get(telefono);
         }
         
-        Consulta consulta = new Consulta(fecha, motivo, diagnostico, tratamiento, dueno);
+        System.out.print("Ingrese el nombre del paciente: ");
+        String nombre = entrada.nextLine();
+        Mascota mascota = (dueno.getMascota()).getMascota(nombre);
+        while (dueno == null) {
+            System.out.println("No hay ningun dueño registrado con ese nombre");
+            System.out.print("Ingrese el numero de telefono del dueño: ");
+            telefono = entrada.nextLong();
+            dueno = duenos.get(telefono);
+        }
+
+        mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
         System.out.println("Consulta agregada con exito"); 
     }
 
