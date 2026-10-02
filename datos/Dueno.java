@@ -15,6 +15,13 @@ public class Dueno {
         this.mascota.crearSet();
     }
 
+    public Dueno(String nombre, long telefono, Direccion direcciom) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.direccion = direcciom;
+        this.mascota.crearSet();
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
