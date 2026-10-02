@@ -171,9 +171,23 @@ public class Principal {
                             telefono = entrada.nextLong();
                             dueno = duenos.get(telefono);
                         }
+                        if (dueno.getMascotas().isEmpty()) {
+                            System.out.println("No hay ninguna mascota registrada");
+                        } else {
+                            dueno.mostrarMascotas();
+                        }
                     }
                     break;
-            
+                
+                    
+                case 6:
+                    if (duenos.isEmpty()) {
+                        System.out.println("No hay duenos registrados");    
+                    } else {
+                        ListaDueno.mostrarDuenos();
+                    }
+                    break;
+
                 default:
                     System.out.println("Opcion invalida");
                     break;
@@ -209,18 +223,21 @@ public class Principal {
             dueno = duenos.get(telefono);
         }
         
-        System.out.print("Ingrese el nombre del paciente: ");
-        String nombre = entrada.nextLine();
-        Mascota mascota = (dueno.getMascota()).getMascota(nombre);
-        while (dueno == null) {
-            System.out.println("No hay ningun dueño registrado con ese nombre");
-            System.out.print("Ingrese el numero de telefono del dueño: ");
-            telefono = entrada.nextLong();
-            dueno = duenos.get(telefono);
+        if (dueno.getMascotas().isEmpty()) {
+            System.out.println("No hay ninguna mascota registrada");
+        } else {
+            System.out.print("Ingrese el nombre del paciente: ");
+            String nombre = entrada.nextLine();
+            Mascota mascota = dueno.getMascota(nombre);
+            while (mascota == null) {
+                System.out.println("No hay ninguna mascota registrada con ese nombre");
+                System.out.print("Ingrese el numero de telefono del dueño: ");
+                nombre = entrada.nextLine();
+                mascota = dueno.getMascota(nombre);
+            }
+            mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
+            System.out.println("Consulta agregada con exito"); 
         }
-
-        mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
-        System.out.println("Consulta agregada con exito"); 
     }
 
     public static void registrarMascota() {

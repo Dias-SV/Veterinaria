@@ -1,25 +1,24 @@
 package datos;
 
 import java.util.HashSet;
-import registros.ListaMascota;
 
 public class Dueno {
     private String nombre;
     private long telefono;
     private Direccion direccion;
-    private ListaMascota mascota;
+    private HashSet<Mascota> mascotas;
 
     public Dueno(String nombre, long telefono) {
         this.nombre = nombre;
         this.telefono = telefono;
-        this.mascota.crearSet();
+        this.mascotas = new HashSet<>();
     }
 
     public Dueno(String nombre, long telefono, Direccion direcciom) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.direccion = direcciom;
-        this.mascota.crearSet();
+        this.mascotas = new HashSet<>();
     }
 
     public void setNombre(String nombre) {
@@ -43,15 +42,30 @@ public class Dueno {
         return direccion;
     }
 
-    public void setMascota(ListaMascota mascota) {
-        this.mascota = mascota;
+    public void setMascotas(HashSet<Mascota> mascotas) {
+        this.mascotas = mascotas;
     }
-    public ListaMascota getMascota() {
-        return mascota;
+    public HashSet<Mascota> getMascotas() {
+        return mascotas;
     }
 
     public void agregarMascota(Mascota mascota) {
-        this.mascota.agregarMascota(mascota);;
+        this.mascotas.add(mascota);;
+    }
+
+    public Mascota getMascota(String nombre) { //Para regresar solo una
+        for (Mascota mascota : mascotas) {
+            if (mascota.getNombre().equals(nombre)) {
+                return mascota;
+            }
+        }
+        return null;
+    }
+
+    public void mostrarMascotas() {
+        for (Mascota mascota : mascotas) {
+            mascota.mostrarMascota();
+        }
     }
 
     public void mostrarDueno() {
@@ -60,4 +74,5 @@ public class Dueno {
         System.out.println("Direccion: ");
         direccion.mostrarDomicilio();
     }
+
 }
