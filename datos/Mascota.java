@@ -5,15 +5,12 @@ public class Mascota {
     private String especie;
     private String raza;
     private byte edad;
-    private Dueno dueno;
-    private int id;
 
-    public Mascota(String nombre, String especie, String raza, byte edad, int id) {
+    public Mascota(String nombre, String especie, String raza, byte edad) {
         this.nombre = nombre;
         this.especie = especie;
         this.raza = raza;
         this.edad = edad;
-        this.id = id;
     }
 
     public void setNombre(String nombre) {
@@ -44,17 +41,10 @@ public class Mascota {
         return edad;
     }
 
-    public void setDueno(Dueno dueno) {
-        this.dueno = dueno;
-    }
-    public Dueno getDueno() {
-        return dueno;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-    public int getId() {
-        return id;
+    public void mostrarMascota() {
+        System.out.println("Nombre: " + nombre);
+        System.out.println("Especie: " + especie);
+        System.out.println("Raza: " + raza);
+        System.out.println("Edad: " + edad);
     }
 }

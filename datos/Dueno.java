@@ -1,19 +1,17 @@
 package datos;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class Dueno {
     private String nombre;
     private long telefono;
     private Direccion direccion;
-    private HashMap<Integer, Mascota> mascota;
-    private int id;
+    private HashSet<Mascota> mascota;
 
-    public Dueno(String nombre, long telefono, int id) {
+    public Dueno(String nombre, long telefono) {
         this.nombre = nombre;
         this.telefono = telefono;
-        this.id = id;
-        mascota = new HashMap<>();
+        mascota = new HashSet<>();
     }
 
     public void setNombre(String nombre) {
@@ -37,18 +35,15 @@ public class Dueno {
         return direccion;
     }
 
-    public void setMascota(HashMap<Integer, Mascota> mascota) {
+    public void setMascota(HashSet<Mascota> mascota) {
         this.mascota = mascota;
     }
-    public HashMap<Integer, Mascota> getMascota() {
+    public HashSet<Mascota> getMascota() {
         return mascota;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    public int getId() {
-        return id;
+    public void agregarMascota(Mascota mascota) {
+        this.mascota.add(mascota);
     }
 
     public void mostrarDueno() {
@@ -56,6 +51,5 @@ public class Dueno {
         System.out.println("Telefono: " + telefono);
         System.out.println("Direccion: ");
         direccion.mostrarDomicilio();
-        System.out.println("ID: " + id);
     }
 }

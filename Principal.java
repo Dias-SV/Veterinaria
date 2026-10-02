@@ -7,17 +7,16 @@ import datos.*;
 
 public class Principal {
     static Scanner entrada = new Scanner(System.in);
+    static HashMap<Long, Dueno> duenos = ListaDueno.getDuenos();
     public static void main(String[] args) {
         int opcionM, opcionS;
-        HashSet<Dueno> duenos = ListaDueno.getDuenos();
-        HashMap<Integer, Mascota> mascotas = ListaMascota.crearMap();
-
+        
         do {
             System.out.println();
             System.out.println("-----Clinica veterinaria-----\n");
             System.out.println("1. Registrar consulta nueva");
             System.out.println("2. Registrar mascota nueva");
-            System.out.println("3. Registrar dueno nuevo");
+            System.out.println("3. Registrar dueño nuevo");
             System.out.println("4. Modificar registros");
             System.out.println("5. Consultar mascotas");
             System.out.println("6. Consultar duenos");
@@ -25,10 +24,10 @@ public class Principal {
             opcionM = entrada.nextInt();
             entrada.nextLine();
 
-            switch (opcion) {
+            switch (opcionM) {
                 case 1:
                     if (duenos.isEmpty()) {
-                        System.out.println("No hay duenos registrados");
+                        System.out.println("No hay dueños registrados");
                     } else {
                         registrarCita();
                     }
@@ -43,12 +42,12 @@ public class Principal {
                     break;
 
                 case 3:
-                    if (duenos.isEmpty() && ms.isEmpty()) {
+                    if (duenos.isEmpty()) {
                         System.out.println("No hay registros");
                     } else {
                         System.out.println();
                         System.out.println("-----Modificador de registros-----\n");
-                        System.out.println("1. Modificar dueno");
+                        System.out.println("1. Modificar dueño");
                         System.out.println("2. Modificar mascota");
                         System.out.println("3. Modificar consulta");
                         System.out.println("0. Salir");
@@ -60,9 +59,10 @@ public class Principal {
                                     if (duenos.isEmpty()) {
                                         System.out.println("No hay duenos registrados");    
                                     } else {
-                                        System.out.print("Dueno a modificar: ");
-                                        System.out.println("-----Datos di-----\n");
-                                        System.out.println("1. Modificar dueno");
+                                        System.out.print("Numero de telefono de dueño: ");
+                                        long telefono = entrada.nextLong();
+                                        System.out.println("-----Datos-----\n");
+                                        System.out.println("1. Modificar dueño");
                                         System.out.println("2. Modificar mascota");
                                         System.out.println("3. Modificar consulta");
                                         System.out.println("0. Salir");
@@ -84,7 +84,7 @@ public class Principal {
                                     break;
                             }
                             
-                        } while (condition);
+                        } while (opcionS != 0);
                         }
                     break;
 
@@ -95,7 +95,7 @@ public class Principal {
                     break;
             }
             
-        } while (opcion != 0); 
+        } while (opcionM != 0); 
     }
     
     public static void registrarCita() {
@@ -114,15 +114,15 @@ public class Principal {
         String diagnostico = entrada.nextLine();
         System.out.print("Ingrese el tratamiento: ");
         String tratamiento = entrada.nextLine();
-        System.out.print("Ingrese el dueno: "); //Tambien esta n
-        String nombre = entrada.nextLine();
+        System.out.print("Ingrese el numero de telefono del dueño: ");
+        long telefono = entrada.nextLong();
 
-        Dueno dueno = ListaDueno.getDueno(nombre);
+        Dueno dueno = duenos.get(telefono);
         while (dueno == null) {
-            System.out.println("No hay ningun dueno registrado con ese nombre"); //Y estas dos
-            System.out.print("Ingrese el dueno: "); 
-            nombre = entrada.nextLine();
-            dueno = ListaDueno.getDueno(nombre);
+            System.out.println("No hay ningun dueño registrado con ese nombre");
+            System.out.print("Ingrese el numero de telefono del dueño: ");
+            telefono = entrada.nextLong();
+            dueno = duenos.get(telefono);
         }
         
         Consulta consulta = new Consulta(fecha, motivo, diagnostico, tratamiento, dueno);
@@ -138,18 +138,18 @@ public class Principal {
         String raza = entrada.nextLine();
         System.out.print("Ingrese la edad: ");
         byte edad = entrada.nextByte();
-        System.out.print("Ingrese el dueno: "); //Tambien esta n
-        String nombreD = entrada.nextLine();
+        System.out.print("Ingrese el numero de telefono del dueño: ");
+        long telefono = entrada.nextLong();
 
-        Dueno dueno = ListaDueno.getDueno(nombre);
+        Dueno dueno = duenos.get(telefono);
         while (dueno == null) {
-            System.out.println("No hay ningun dueno registrado con ese nombre"); //Y estas dos
-            System.out.print("Ingrese el dueno: "); 
-            nombre = entrada.nextLine();
-            dueno = ListaDueno.getDueno(nombre);
+            System.out.println("No hay ningun dueño registrado con ese nombre");
+            System.out.print("Ingrese el numero de telefono del dueño: ");
+            telefono = entrada.nextLong();
+            dueno = duenos.get(telefono);
         }
         
-        ListaMascota.agregarMascota(new Mascota(nombre, especie, raza, edad, 1));
-        System.out.println("Consulta agregada con exito"); 
+        dueno.agregarMascota(new Mascota(nombre, especie, raza, edad));
+        System.out.println("Mascota agregada con exito"); 
     }
 }
