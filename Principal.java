@@ -20,10 +20,12 @@ public class Principal {
             System.out.println("5. Consultar mascotas");
             System.out.println("6. Consultar duenos");
             System.out.println("0. Salir");
+            System.out.print("Opcion: ");
             opcionM = entrada.nextInt();
             //La lectura de buffer provocaba doble lectura de datos
             switch (opcionM) {
                 case 1:
+                    System.out.println();
                     if (duenos.isEmpty()) {
                         System.out.println("No hay dueños registrados");
                     } else {
@@ -32,6 +34,7 @@ public class Principal {
                     break;
 
                 case 2:
+                    System.out.println();
                     if (duenos.isEmpty()) {
                         System.out.println("No hay duenos registrados");
                     } else {
@@ -40,14 +43,15 @@ public class Principal {
                     break;
 
                 case 3:
+                    System.out.println();
                     registrarDueno();
                     break;
 
                 case 4:
+                    System.out.println();
                     if (duenos.isEmpty()) {
                         System.out.println("No hay registros");
                     } else {
-                        System.out.println();
                         System.out.println("-----Modificador de registros-----");
                         System.out.println("1. Modificar dueño");
                         System.out.println("2. Modificar mascota");
@@ -74,7 +78,6 @@ public class Principal {
                                         System.out.println("1. Modificar nombre");
                                         System.out.println("2. Modificar telefono");
                                         System.out.println("3. Modificar direccion");
-                                        System.out.println("4. Modificar mascotas");
                                         System.out.println("0. Salir");
                                         opcionS = entrada.nextInt();
                                         entrada.nextLine();
@@ -98,14 +101,12 @@ public class Principal {
                                                     modificarDireccion(dueno.getDireccion());
                                                     break;
 
-                                                case 4:
-                                                    break;
-
                                                 case 0:
                                                     System.out.println("Saliendo del submenu");
                                                     break;
 
                                                 default:
+                                                    System.out.println("Opcion invalida");
                                                     break;
                                             }
                                             
@@ -127,6 +128,7 @@ public class Principal {
                                             telefono = entrada.nextLong();
                                             dueno = duenos.get(telefono);
                                         }
+
                                     }
                                     break;
 
@@ -137,8 +139,14 @@ public class Principal {
                                         System.out.print("Numero de telefono de dueño: ");
                                         long telefono = entrada.nextLong();
                                         Dueno dueno = duenos.get(telefono);
+                                        entrada.nextLine();
                                         while (dueno == null) {
                                             System.out.println("No hay ningun dueño registrado con ese nombre");
+                                            System.out.print("¿Desea registrar un nuevo dueño? (s/n): ");
+                                            String opc = entrada.nextLine().trim();
+                                            if (opc.equalsIgnoreCase("s")) {
+                                            }
+            
                                             System.out.print("Ingrese el numero de telefono del dueño: ");
                                             telefono = entrada.nextLong();
                                             dueno = duenos.get(telefono);
@@ -150,6 +158,7 @@ public class Principal {
                                     System.out.println("Cerrando submenu");
                             
                                 default:
+                                    System.out.println("Opcion invalida");
                                     break;
                             }
                             
@@ -158,6 +167,7 @@ public class Principal {
                     break;
 
                 case 5:
+                    System.out.println();
                     if (duenos.isEmpty()) {
                         System.out.println("No hay duenos registrados");    
                     } else {
@@ -180,11 +190,16 @@ public class Principal {
                 
                     
                 case 6:
+                    System.out.println();
                     if (duenos.isEmpty()) {
                         System.out.println("No hay duenos registrados");    
                     } else {
                         ListaDueno.mostrarDuenos();
                     }
+                    break;
+
+                case 0:
+                    System.out.println("Cerrando programa...");
                     break;
 
                 default:
@@ -214,9 +229,9 @@ public class Principal {
                 System.out.println("No hay ninguna mascota registrada");
                 System.out.print("¿Desea registrar una nueva mascota? (s/n): ");
                 entrada.nextLine();
-                String opc2 = entrada.nextLine().trim();
+                opc = entrada.nextLine().trim();
                 
-                if (opc2.equalsIgnoreCase("s")) {
+                if (opc.equalsIgnoreCase("s")) {
                     Mascota mascota = registrarMascotaTelefono(telefono);
                     System.out.println("Datos de consulta:");
                     System.out.println("Ingrese la fecha (dd/mm/aaaa)");
@@ -249,9 +264,9 @@ public class Principal {
             if (dueno.getMascotas().isEmpty()) {
                 System.out.println("No hay ninguna mascota registrada");
                 System.out.print("¿Desea registrar una nueva mascota? (s/n): ");//Se puede decidir salir o registrar un nuevo dueño.
-                String opc2 = entrada.nextLine().trim();
+                opc = entrada.nextLine().trim();
 
-                if (opc2.equalsIgnoreCase("s")) {
+                if (opc.equalsIgnoreCase("s")) {
                         Mascota mascota=registrarMascotaTelefono(telefono);
                         System.out.println("Datos de consulta:");
                         System.out.println("Ingrese la fecha (dd/mm/aaaa)");

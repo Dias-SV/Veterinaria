@@ -2,15 +2,18 @@ package registros;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import datos.Direccion;
 import datos.Dueno;
 
 public class ListaDueno {
     private static HashMap<Long, Dueno> duenos = new HashMap<>();
 
     static {
-        Dueno temp = new Dueno("Carlos", 5512345678L);
+        Direccion dir = new Direccion("Rio de los Pinos",(short)346,"Bosques del Oriente","Gustavo A. Madero","Cdmx",50782);
+        Dueno temp = new Dueno("Carlos", 5512345678L, dir);
         duenos.put(temp.getTelfono(), temp);
-        temp = new Dueno("Leslie", 5598765432L);
+        temp = new Dueno("Leslie", 5598765432L, dir);
         duenos.put(temp.getTelfono(), temp);
     }
 
@@ -24,7 +27,8 @@ public class ListaDueno {
 
     public static void mostrarDuenos() {
         for (Map.Entry<Long, Dueno> dueno : duenos.entrySet()) {
-            System.out.println(dueno.getKey() + " -> " + dueno.getValue().getNombre());
+            dueno.getValue().mostrarDueno();
+            System.out.println();
         }
     }
 }
