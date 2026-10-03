@@ -17,6 +17,7 @@ public class Principal {
             System.out.println("2. Registrar mascota nueva");
             System.out.println("3. Registrar dueño nuevo");
             System.out.println("4. Modificar registros");
+            System.out.println("5. Consultar historial de consultas");
             System.out.println("5. Consultar mascotas");
             System.out.println("6. Consultar duenos");
             System.out.println("0. Salir");
@@ -232,25 +233,8 @@ public class Principal {
                 opc = entrada.nextLine().trim();
                 
                 if (opc.equalsIgnoreCase("s")) {
-                    Mascota mascota = registrarMascotaTelefono(telefono);
-                    System.out.println("Datos de consulta:");
-                    System.out.println("Ingrese la fecha (dd/mm/aaaa)");
-                    System.out.print("Dia: ");
-                    int dia = entrada.nextInt();
-                    System.out.print("Mes: ");
-                    int mes = entrada.nextInt();
-                    System.out.print("Ano: ");
-                    int ano = entrada.nextInt();
-                    entrada.nextLine(); 
-                    LocalDate fecha = LocalDate.of(ano, mes, dia);
-                    System.out.print("Ingrese el motivo de consulta: ");
-                    String motivo = entrada.nextLine();
-                    System.out.print("Ingrese el diagnostico: ");
-                    String diagnostico = entrada.nextLine();
-                    System.out.print("Ingrese el tratamiento: ");
-                    String tratamiento = entrada.nextLine();
-                    mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
-                    System.out.println("Consulta agregada con exito");
+                    Mascota mascota = registrarMascota(telefono);
+                    datosConsulta(mascota);
                     return;
                 } else {
                     System.out.println("Cancelando registro de consulta...");
@@ -267,47 +251,14 @@ public class Principal {
                 opc = entrada.nextLine().trim();
 
                 if (opc.equalsIgnoreCase("s")) {
-                        Mascota mascota=registrarMascotaTelefono(telefono);
-                        System.out.println("Datos de consulta:");
-                        System.out.println("Ingrese la fecha (dd/mm/aaaa)");
-                        System.out.print("Dia: ");
-                        int dia = entrada.nextInt();
-                        System.out.print("Mes: ");
-                        int mes = entrada.nextInt();
-                        System.out.print("Ano: "); //Corregir la n
-                        int ano = entrada.nextInt();
-                        entrada.nextLine(); // Limpieza necesaria tras la lectura numérica de la fecha
-                        LocalDate fecha = LocalDate.of(ano, mes, dia);
-                        System.out.print("Ingrese el motivo de consulta: ");
-                        String motivo = entrada.nextLine();
-                        System.out.print("Ingrese el diagnostico: ");
-                        String diagnostico = entrada.nextLine();
-                        System.out.print("Ingrese el tratamiento: ");
-                        String tratamiento = entrada.nextLine();
-                        mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
-                        System.out.println("Consulta agregada con exito");
-                        return;//Bandera para terminar el ciclo
+                        Mascota mascota = registrarMascota(telefono);
+                        datosConsulta(mascota);
+                        return;
                     }else{
                         System.out.println("Cancelando registro de consulta...");
                         return;
                     }
             } else {
-                System.out.println("Datos de consulta:");
-                System.out.println("Ingrese la fecha (dd/mm/aaaa)");
-                System.out.print("Dia: ");
-                int dia = entrada.nextInt();
-                System.out.print("Mes: ");
-                int mes = entrada.nextInt();
-                System.out.print("Ano: ");
-                int ano = entrada.nextInt();
-                entrada.nextLine();
-                LocalDate fecha = LocalDate.of(ano, mes, dia);
-                System.out.print("Ingrese el motivo de consulta: ");
-                String motivo = entrada.nextLine();
-                System.out.print("Ingrese el diagnostico: ");
-                String diagnostico = entrada.nextLine();
-                System.out.print("Ingrese el tratamiento: ");
-                String tratamiento = entrada.nextLine();
                 System.out.print("Ingrese el nombre de la mascota: ");
                 String nombre = entrada.nextLine();
                 Mascota mascota = dueno.getMascota(nombre);
@@ -317,11 +268,31 @@ public class Principal {
                     nombre = entrada.nextLine();
                     mascota = dueno.getMascota(nombre);
                 }
-                mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
-                System.out.println("Consulta agregada con exito"); 
+                datosConsulta(mascota);
                 return;
             }
         }
+    }
+
+    public static void datosConsulta(Mascota mascota) {
+        System.out.println("Datos de consulta:");
+        System.out.println("Ingrese la fecha (dd/mm/aaaa)");
+        System.out.print("Dia: ");
+        int dia = entrada.nextInt();
+        System.out.print("Mes: ");
+        int mes = entrada.nextInt();
+        System.out.print("Ano: "); //Corregir la n
+        int ano = entrada.nextInt();
+        entrada.nextLine(); // Limpieza necesaria tras la lectura numérica de la fecha
+        LocalDate fecha = LocalDate.of(ano, mes, dia);
+        System.out.print("Ingrese el motivo de consulta: ");
+        String motivo = entrada.nextLine();
+        System.out.print("Ingrese el diagnostico: ");
+        String diagnostico = entrada.nextLine();
+        System.out.print("Ingrese el tratamiento: ");
+        String tratamiento = entrada.nextLine();
+        mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
+        System.out.println("Consulta agregada con exito");
     }
 
     public static void registrarMascota() {
@@ -351,7 +322,7 @@ public class Principal {
         System.out.println("Mascota agregada con exito");
     }
 
-    public static Mascota registrarMascotaTelefono(long telefono) {//Nuevo metodo que facilita el añadido de mascotas con telefono para el menu
+    public static Mascota registrarMascota(long telefono) {
         System.out.print("Ingrese el nombre: ");
         String nombre = entrada.nextLine();
         System.out.print("Ingrese la especie: ");
@@ -462,6 +433,7 @@ public class Principal {
                 break;
 
             case 0:
+                System.out.println("Cerrando submenu...");
                 break;
             
             default:
