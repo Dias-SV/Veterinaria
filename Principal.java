@@ -39,7 +39,16 @@ public class Principal {
                     if (duenos.isEmpty()) {
                         System.out.println("No hay duenos registrados");
                     } else {
-                        registrarMascota();
+                        System.out.print("Numero de telefono de dueño: ");
+                        long telefono = entrada.nextLong();
+                        Dueno dueno = duenos.get(telefono);
+                        while (dueno == null) {
+                            System.out.println("No hay ningun dueño registrado con ese numero");
+                            System.out.print("Ingrese el numero de telefono del dueño: ");
+                            telefono = entrada.nextLong();
+                            dueno = duenos.get(telefono);
+                        }
+                        registrarMascota(telefono);
                     }
                     break;
 
@@ -51,131 +60,76 @@ public class Principal {
                 case 4:
                     System.out.println();
                     if (duenos.isEmpty()) {
-                        System.out.println("No hay registros");
+                        System.out.println("No hay dueños registrados");
                     } else {
-                        System.out.println("-----Modificador de registros-----");
-                        System.out.println("1. Modificar dueño");
-                        System.out.println("2. Modificar mascota");
-                        System.out.println("3. Modificar consulta");
-                        System.out.println("0. Salir");
-                        opcionS = entrada.nextInt();
-                        entrada.nextLine();
+                        System.out.print("Numero de telefono de dueño: ");
+                        long telefono = entrada.nextLong();
+                        Dueno dueno = duenos.get(telefono);
+                        while (dueno == null) {
+                            System.out.println("No hay ningun dueño registrado con ese numero");
+                            System.out.print("Ingrese el numero de telefono del dueño: ");
+                            telefono = entrada.nextLong();
+                            dueno = duenos.get(telefono);
+                        }
+
                         do {
+                            System.out.println("-----Modificador de registros-----");
+                            System.out.println("1. Modificar dueño");
+                            System.out.println("2. Modificar mascota");
+                            System.out.println("3. Modificar consulta");
+                            System.out.println("0. Salir");
+                            opcionS = entrada.nextInt();
+                            entrada.nextLine();
                             switch (opcionS) {
                                 case 1:
-                                    if (duenos.isEmpty()) {
-                                        System.out.println("No hay duenos registrados");    
-                                    } else {
-                                        System.out.print("Numero de telefono de dueño: ");
-                                        long telefono = entrada.nextLong();
-                                        Dueno dueno = duenos.get(telefono);
-                                        while (dueno == null) {
-                                            System.out.println("No hay ningun dueño registrado con ese numero");
-                                            System.out.print("Ingrese el numero de telefono del dueño: ");
-                                            telefono = entrada.nextLong();
-                                            dueno = duenos.get(telefono);
-                                        }
-                                        System.out.println("\n-----Datos-----");
-                                        System.out.println("1. Modificar nombre");
-                                        System.out.println("2. Modificar telefono");
-                                        System.out.println("3. Modificar direccion");
-                                        System.out.println("0. Salir");
-                                        opcionS = entrada.nextInt();
-                                        entrada.nextLine();
-                                        do {
-                                            switch (opcionS) {
-                                                case 1:
-                                                    System.out.println("Inserte el nuevo nombre: ");
-                                                    String nombre = entrada.nextLine();
-                                                    dueno.setNombre(nombre);
-                                                    System.out.println("Nombre modificado correctamente");
-                                                    break;
-                                            
-                                                case 2:
-                                                    System.out.println("Inserte el nuevo telefono: ");
-                                                    long numero = entrada.nextLong();
-                                                    dueno.setTelefono(numero);;
-                                                    System.out.println("Telefono modificado correctamente");
-                                                    break;
-
-                                                case 3:
-                                                    modificarDireccion(dueno.getDireccion());
-                                                    break;
-
-                                                case 0:
-                                                    System.out.println("Saliendo del submenu");
-                                                    break;
-
-                                                default:
-                                                    System.out.println("Opcion invalida");
-                                                    break;
-                                            }
-                                            
-                                        } while (opcionS != 0);
-                                    }
+                                    modificarDueno(dueno);
                                     break;
 
                                 case 2:
-                                    if (duenos.isEmpty()) {
-                                        System.out.println("No hay duenos registrados");    
+                                    if (dueno.getMascotas().isEmpty()) {
+                                        System.out.println("No hay ninguna mascota registrada");
                                     } else {
-                                        System.out.print("Numero de telefono de dueño: ");
-                                        entrada.nextLine();//limpieza necesaria, pedía dos veces el telefono aún existiendo
-                                        long telefono = entrada.nextLong();
-                                        Dueno dueno = duenos.get(telefono);
-                                        while (dueno == null) {
-                                            System.out.println("No hay ningun dueño registrado con ese numero");
-                                            System.out.print("Ingrese el numero de telefono del dueño: ");
-                                            telefono = entrada.nextLong();
-                                            dueno = duenos.get(telefono);
+                                        System.out.print("Ingrese el nombre de la mascota: ");
+                                        String nombre = entrada.nextLine();
+                                        Mascota mascota = dueno.getMascota(nombre);
+                                        while (mascota == null) {
+                                            System.out.println("No hay ninguna mascota registrada con ese nombre");
+                                            System.out.print("Ingrese el nombre de la mascota nuevamente: ");
+                                            nombre = entrada.nextLine();
+                                            mascota = dueno.getMascota(nombre);
                                         }
-
+                                        modificarMascota(mascota);
                                     }
                                     break;
 
                                 case 3:
-                                    if (duenos.isEmpty()) {
-                                        System.out.println("No hay duenos registrados");    
+                                    if (dueno.getMascotas().isEmpty()) {
+                                        System.out.println("No hay ninguna mascota registrada");
                                     } else {
-                                        System.out.print("Numero de telefono de dueño: ");
-                                        long telefono = entrada.nextLong();
-                                        Dueno dueno = duenos.get(telefono);
-                                        entrada.nextLine();
-                                        while (dueno == null) {
-                                            System.out.println("No hay ningun dueño registrado con ese numero");            
-                                            System.out.print("Ingrese el numero de telefono del dueño: ");
-                                            telefono = entrada.nextLong();
-                                            dueno = duenos.get(telefono);
+                                        System.out.print("Ingrese el nombre de la mascota: ");
+                                        String nombre = entrada.nextLine();
+                                        Mascota mascota = dueno.getMascota(nombre);
+                                        while (mascota == null) {
+                                            System.out.println("No hay ninguna mascota registrada con ese nombre");
+                                            System.out.print("Ingrese el nombre de la mascota nuevamente: ");
+                                            nombre = entrada.nextLine();
+                                            mascota = dueno.getMascota(nombre);
                                         }
 
-                                        if (dueno.getMascotas().isEmpty()) {
-                                            System.out.println("No hay ninguna mascota registrada");
+                                        System.out.println("Ingrese la fecha de consulta(dd/mm/aaaa)");
+                                        System.out.print("Dia: ");
+                                        int dia = entrada.nextInt();
+                                        System.out.print("Mes: ");
+                                        int mes = entrada.nextInt();
+                                        System.out.print("Ano: "); //Corregir la n
+                                        int ano = entrada.nextInt();
+                                        entrada.nextLine();
+                                        LocalDate fecha = LocalDate.of(ano, mes, dia);
+                                        Consulta consulta = mascota.getConsulta(fecha);
+                                        if (consulta == null) {
+                                            System.out.println("No se tiene ninguna consulta con esta fecha");
                                         } else {
-                                            System.out.print("Ingrese el nombre de la mascota: ");
-                                            String nombre = entrada.nextLine();
-                                            Mascota mascota = dueno.getMascota(nombre);
-                                            while (mascota == null) {
-                                                System.out.println("No hay ninguna mascota registrada con ese nombre");
-                                                System.out.print("Ingrese el nombre de la mascota nuevamente: ");
-                                                nombre = entrada.nextLine();
-                                                mascota = dueno.getMascota(nombre);
-                                            }
-
-                                            System.out.println("Ingrese la fecha (dd/mm/aaaa)");
-                                            System.out.print("Dia: ");
-                                            int dia = entrada.nextInt();
-                                            System.out.print("Mes: ");
-                                            int mes = entrada.nextInt();
-                                            System.out.print("Ano: "); //Corregir la n
-                                            int ano = entrada.nextInt();
-                                            entrada.nextLine();
-                                            LocalDate fecha = LocalDate.of(ano, mes, dia);
-                                            Consulta consulta = mascota.getConsulta(fecha);
-                                            if (consulta == null) {
-                                                System.out.println("No se tiene ninguna consulta con esta fecha");
-                                            } else {
-                                                modificarConsulta(consulta);
-                                            }
+                                            modificarConsulta(consulta);
                                         }
                                     }
                                     break;
@@ -187,9 +141,8 @@ public class Principal {
                                     System.out.println("Opcion invalida");
                                     break;
                             }
-                            
                         } while (opcionS != 0);
-                        }
+                    }
                     break;
 
                 case 5:
@@ -353,33 +306,6 @@ public class Principal {
         System.out.println("Consulta agregada con exito");
     }
 
-    public static void registrarMascota() {
-        entrada.nextLine();//Había un salto de linea atrapado
-        System.out.print("Ingrese el nombre: ");
-        String nombre = entrada.nextLine();
-        System.out.print("Ingrese la especie: ");
-        String especie = entrada.nextLine();
-        System.out.print("Ingrese la raza: ");
-        String raza = entrada.nextLine();
-        System.out.print("Ingrese la edad: ");
-        byte edad = entrada.nextByte();
-        entrada.nextLine(); // Limpieza necesaria tras nextByte
-        System.out.print("Ingrese el numero de telefono del dueño: ");
-        long telefono = entrada.nextLong();
-        entrada.nextLine(); // Limpieza necesaria tras nextLong
-
-        Dueno dueno = duenos.get(telefono);
-        while (dueno == null) {
-            System.out.println("No hay ningun dueño registrado con ese nombre");
-            System.out.print("Ingrese el numero de telefono del dueño: ");
-            telefono = entrada.nextLong();
-            entrada.nextLine(); // Limpieza necesaria en cada intento del bucle
-            dueno = duenos.get(telefono);
-        }
-        dueno.agregarMascota(new Mascota(nombre, especie, raza, edad));
-        System.out.println("Mascota agregada con exito");
-    }
-
     public static Mascota registrarMascota(long telefono) {
         System.out.print("Ingrese el nombre: ");
         String nombre = entrada.nextLine();
@@ -391,10 +317,10 @@ public class Principal {
         byte edad = entrada.nextByte();
         entrada.nextLine(); // Limpieza necesaria tras nextByte
         Dueno dueno = duenos.get(telefono);
-        Mascota mascotita = new Mascota(nombre, especie, raza, edad);
-        dueno.agregarMascota(mascotita);
+        Mascota mascota = new Mascota(nombre, especie, raza, edad);
+        dueno.agregarMascota(mascota);
         System.out.println("Mascota agregada con exito"); 
-        return mascotita;
+        return mascota;
     }
 
     public static void registrarDueno() {
@@ -440,7 +366,48 @@ public class Principal {
         
         return new Direccion(calle, numero, colonia, alcaldia, estado, codigoPostal);
     }
-    
+
+    public static void modificarDueno(Dueno dueno) {
+        int opcion;
+        do {
+            System.out.println("\n-----Datos-----");
+            System.out.println("1. Modificar nombre");
+            System.out.println("2. Modificar telefono");
+            System.out.println("3. Modificar direccion");
+            System.out.println("0. Salir");
+            System.out.print("Opcion: ");
+            opcion = entrada.nextInt();
+            entrada.nextLine();
+            switch (opcion) {
+                case 1:
+                    System.out.println("Inserte el nuevo nombre: ");
+                    String nombre = entrada.nextLine();
+                    dueno.setNombre(nombre);
+                    System.out.println("Nombre modificado correctamente");
+                    break;
+                                            
+                case 2:
+                    System.out.println("Inserte el nuevo telefono: ");
+                    long numero = entrada.nextLong();
+                    dueno.setTelefono(numero);;
+                    System.out.println("Telefono modificado correctamente");
+                    break;
+
+                case 3:
+                    modificarDireccion(dueno.getDireccion());
+                    break;
+
+                case 0:
+                    System.out.println("Saliendo del submenu");
+                    break;
+
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+                }                                    
+        } while (opcion != 0);
+    }
+
     public static void modificarDireccion(Direccion direccion) {
         int opcion;
         do {
@@ -452,6 +419,7 @@ public class Principal {
             System.out.println("5. Modificar el estado");
             System.out.println("6. Modificar el codigo postal");
             System.out.println("0. Salir");
+            System.out.print("Opcion: ");
             opcion = entrada.nextInt();
             entrada.nextLine();
 
@@ -503,6 +471,55 @@ public class Principal {
         } while (opcion != 0);
     }
 
+    public static void modificarMascota(Mascota mascota) {
+        int opcion;
+        do {
+            System.out.println("\n----Modificador de direccion----");
+            System.out.println("1. Modificar el nombre");
+            System.out.println("2. Modificar la especie");
+            System.out.println("3. Modificar la raza");
+            System.out.println("4. Modificar la edad");
+            System.out.println("0. Salir");
+            System.out.print("Opcion: ");
+            opcion = entrada.nextInt();
+            entrada.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("Ingrese el nombre: ");
+                    String nombre = entrada.nextLine();
+                    mascota.setNombre(nombre);
+                    break;
+            
+                case 2:
+                    System.out.print("Ingrese la especie: ");
+                    String especie = entrada.nextLine();
+                    mascota.setEspecie(especie);
+                    break;
+                
+                case 3:
+                    System.out.print("Ingrese la raza: ");
+                    String raza = entrada.nextLine();
+                    mascota.setRaza(raza);
+                    break;
+            
+                case 4:
+                    System.out.print("Ingrese la edad: ");
+                    byte edad = entrada.nextByte();
+                    mascota.setEdad(edad);
+                    break;
+
+                case 0:
+                    System.out.println("Cerrando submenu...");
+                    break;
+                
+                default:
+                    System.out.println("Opcion invalida");
+                break;
+            }
+        } while (opcion != 0);
+    }
+    
     public static void modificarConsulta(Consulta consulta) {
         int opcion;
         do{
