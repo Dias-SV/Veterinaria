@@ -1,4 +1,4 @@
-import java.util.HashSet;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -10,10 +10,10 @@ public class Principal {
     static HashMap<Long, Dueno> duenos = ListaDueno.getDuenos();
     public static void main(String[] args) {
         int opcionM, opcionS;
-        
+        System.out.println("-----Clinica veterinaria-----");
         do {
             System.out.println();
-            System.out.println("-----Clinica veterinaria-----");
+            System.out.println("MENU PRINCIPAL");
             System.out.println("1. Registrar consulta nueva");
             System.out.println("2. Registrar mascota nueva");
             System.out.println("3. Registrar dueño nuevo");
@@ -195,49 +195,87 @@ public class Principal {
             
         } while (opcionM != 0); 
     }
-    
-    public static void registrarConsulta() {
-        System.out.println("Ingrese la fecha (dd/mm/aaaa)");
-        System.out.print("Dia: ");
-        int dia = entrada.nextInt();
-        System.out.print("Mes: ");
-        int mes = entrada.nextInt();
-        System.out.print("Ano: "); //Corregir la n
-        int ano = entrada.nextInt();
+public static void registrarConsulta() {
+        String opc="K";
         entrada.nextLine();
-        LocalDate fecha = LocalDate.of(ano, mes, dia);
-        System.out.print("Ingrese el motivo de consulta: ");
-        String motivo = entrada.nextLine();
-        System.out.print("Ingrese el diagnostico: ");
-        String diagnostico = entrada.nextLine();
-        System.out.print("Ingrese el tratamiento: ");
-        String tratamiento = entrada.nextLine();
-        
-        System.out.print("Ingrese el numero de telefono del dueño: ");
-        long telefono = entrada.nextLong();
-        Dueno dueno = duenos.get(telefono);
-        while (dueno == null) {
-            System.out.println("No hay ningun dueño registrado con ese nombre");
+        //Aquí había un bucle infinito de pedir el telefono si no existía
+        do {
             System.out.print("Ingrese el numero de telefono del dueño: ");
-            telefono = entrada.nextLong();
-            dueno = duenos.get(telefono);
-        }
-        
-        if (dueno.getMascotas().isEmpty()) {
-            System.out.println("No hay ninguna mascota registrada");
-        } else {
-            System.out.print("Ingrese el nombre del paciente: ");
-            String nombre = entrada.nextLine();
-            Mascota mascota = dueno.getMascota(nombre);
-            while (mascota == null) {
-                System.out.println("No hay ninguna mascota registrada con ese nombre");
-                System.out.print("Ingrese el numero de telefono del dueño: ");
-                nombre = entrada.nextLine();
-                mascota = dueno.getMascota(nombre);
+            long telefono = entrada.nextLong();
+            entrada.nextLine(); // Limpieza necesaria tras nextLong
+            Dueno dueno = duenos.get(telefono);
+            if(dueno==null){
+                System.out.println("El teléfono ingresado no pertenece a ningún dueño registrado.");
+                System.out.print("¿Deseas registrar un nuevo dueño ahora (el de la consulta)? (s/n): ");//Se puede decidir salir o registrar un nuevo dueño.
+                opc = entrada.nextLine().trim();
+                if (opc.equalsIgnoreCase("s")) {
+                    telefono=registrarDueno2();
+                    dueno = duenos.get(telefono);
+                } else {
+                    System.out.println("Cancelando registro de consulta...");
+                    return;
+                }
+            }else{
+                if (dueno.getMascotas().isEmpty()) {
+                    System.out.println("No hay ninguna mascota registrada");
+                    System.out.print("¿Deseas registrar una nueva mascota (la de la consulta)? (s/n): ");//Se puede decidir salir o registrar un nuevo dueño.
+                    String opc2 = entrada.nextLine().trim();
+                    if(opc2.equalsIgnoreCase("s")){
+                        Mascota mascota=registrarMascotaTelefono(telefono);
+                        System.out.println("Datos de consulta:");
+                        System.out.println("Ingrese la fecha (dd/mm/aaaa)");
+                        System.out.print("Dia: ");
+                        int dia = entrada.nextInt();
+                        System.out.print("Mes: ");
+                        int mes = entrada.nextInt();
+                        System.out.print("Ano: "); //Corregir la n
+                        int ano = entrada.nextInt();
+                        entrada.nextLine(); // Limpieza necesaria tras la lectura numérica de la fecha
+                        LocalDate fecha = LocalDate.of(ano, mes, dia);
+                        System.out.print("Ingrese el motivo de consulta: ");
+                        String motivo = entrada.nextLine();
+                        System.out.print("Ingrese el diagnostico: ");
+                        String diagnostico = entrada.nextLine();
+                        System.out.print("Ingrese el tratamiento: ");
+                        String tratamiento = entrada.nextLine();
+                        mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
+                        System.out.println("Consulta agregada con exito");
+                        opc="n";//Bandera para terminar el ciclo
+                    }else{
+                        System.out.println("Cancelando registro de consulta...");
+                    }
+                } else {
+                    System.out.println("Datos de consulta:");
+                    System.out.println("Ingrese la fecha (dd/mm/aaaa)");
+                    System.out.print("Dia: ");
+                    int dia = entrada.nextInt();
+                    System.out.print("Mes: ");
+                    int mes = entrada.nextInt();
+                    System.out.print("Ano: "); //Corregir la n
+                    int ano = entrada.nextInt();
+                    entrada.nextLine(); // Limpieza necesaria tras la lectura numérica de la fecha
+                    LocalDate fecha = LocalDate.of(ano, mes, dia);
+                    System.out.print("Ingrese el motivo de consulta: ");
+                    String motivo = entrada.nextLine();
+                    System.out.print("Ingrese el diagnostico: ");
+                    String diagnostico = entrada.nextLine();
+                    System.out.print("Ingrese el tratamiento: ");
+                    String tratamiento = entrada.nextLine();
+                    System.out.print("Ingrese el nombre del paciente: ");
+                    String nombre = entrada.nextLine();
+                    Mascota mascota = dueno.getMascota(nombre);
+                    while (mascota == null) {
+                        System.out.println("No hay ninguna mascota registrada con ese nombre");
+                        System.out.print("Ingrese el nombre de la mascota nuevamente: ");
+                        nombre = entrada.nextLine();
+                        mascota = dueno.getMascota(nombre);
+                    }
+                    mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
+                    System.out.println("Consulta agregada con exito"); 
+                    opc="n";//Bandera para terminar el ciclo
+                }
             }
-            mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
-            System.out.println("Consulta agregada con exito"); 
-        }
+        }while (opc.equalsIgnoreCase("n"));
     }
 
     public static void registrarMascota() {
@@ -249,19 +287,38 @@ public class Principal {
         String raza = entrada.nextLine();
         System.out.print("Ingrese la edad: ");
         byte edad = entrada.nextByte();
+        entrada.nextLine(); // Limpieza necesaria tras nextByte
         System.out.print("Ingrese el numero de telefono del dueño: ");
         long telefono = entrada.nextLong();
+        entrada.nextLine(); // Limpieza necesaria tras nextLong
 
         Dueno dueno = duenos.get(telefono);
         while (dueno == null) {
             System.out.println("No hay ningun dueño registrado con ese nombre");
             System.out.print("Ingrese el numero de telefono del dueño: ");
             telefono = entrada.nextLong();
+            entrada.nextLine(); // Limpieza necesaria en cada intento del bucle
             dueno = duenos.get(telefono);
         }
-        
         dueno.agregarMascota(new Mascota(nombre, especie, raza, edad));
+        System.out.println("Mascota agregada con exito");
+    }
+
+    public static Mascota registrarMascotaTelefono(long telefono) {//Nuevo metodo que facilita el añadido de mascotas con telefono para el menu
+        System.out.print("Ingrese el nombre: ");
+        String nombre = entrada.nextLine();
+        System.out.print("Ingrese la especie: ");
+        String especie = entrada.nextLine();
+        System.out.print("Ingrese la raza: ");
+        String raza = entrada.nextLine();
+        System.out.print("Ingrese la edad: ");
+        byte edad = entrada.nextByte();
+        entrada.nextLine(); // Limpieza necesaria tras nextByte
+        Dueno dueno = duenos.get(telefono);
+        Mascota mascotita = new Mascota(nombre, especie, raza, edad);
+        dueno.agregarMascota(mascotita);
         System.out.println("Mascota agregada con exito"); 
+        return mascotita;
     }
 
     public static void registrarDueno() {
@@ -269,10 +326,24 @@ public class Principal {
         String nombre = entrada.nextLine();
         System.out.print("Ingrese telefono: ");
         long telefono = entrada.nextLong();
+        entrada.nextLine(); // Limpieza necesaria tras nextLong
         Direccion direccion = nuevaDireccion();
         Dueno dueno = new Dueno(nombre, telefono, direccion);
         duenos.put(telefono, dueno);
-        System.out.println("Dueno agregada con exito");
+        System.out.println("Dueno agregado con exito");
+    }
+    
+    public static long registrarDueno2() {
+        System.out.print("Ingrese el nombre: ");
+        String nombre = entrada.nextLine();
+        System.out.print("Ingrese telefono: ");
+        long telefono = entrada.nextLong();
+        entrada.nextLine(); // Limpieza necesaria tras nextLong
+        Direccion direccion = nuevaDireccion();
+        Dueno dueno = new Dueno(nombre, telefono, direccion);
+        duenos.put(telefono, dueno);
+        System.out.println("Dueno agregado con exito");
+        return telefono;
     }
 
     public static Direccion nuevaDireccion() {
