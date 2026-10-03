@@ -1,4 +1,3 @@
-
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -195,90 +194,64 @@ public class Principal {
             
         } while (opcionM != 0); 
     }
-public static void registrarConsulta() {
+
+    public static void registrarConsulta() {
         String opc="K";
         entrada.nextLine();
-        do {
-            System.out.print("Ingrese el numero de telefono del dueño: ");
-            long telefono = entrada.nextLong();
-            entrada.nextLine(); 
-            Dueno dueno = duenos.get(telefono);
-            if(dueno==null){
-                System.out.println("El teléfono ingresado no pertenece a ningún dueño registrado.");
-                System.out.print("¿Deseas registrar un nuevo dueño ahora (el de la consulta)? (s/n): ");
-                opc = entrada.nextLine().trim();
-                if (opc.equalsIgnoreCase("s")) {
-                    telefono=registrarDueno2();
-                    dueno = duenos.get(telefono);
-                    if (dueno.getMascotas().isEmpty()) {
-                        System.out.println("No hay ninguna mascota registrada");
-                        System.out.print("¿Deseas registrar una nueva mascota (la de la consulta)? (s/n): ");
-                        entrada.nextLine();
-                        String opc2 = entrada.nextLine().trim();
-                        if(opc2.equalsIgnoreCase("s")){
-                            Mascota mascota=registrarMascotaTelefono(telefono);
-                            System.out.println("Datos de consulta:");
-                            System.out.println("Ingrese la fecha (dd/mm/aaaa)");
-                            System.out.print("Dia: ");
-                            int dia = entrada.nextInt();
-                            System.out.print("Mes: ");
-                            int mes = entrada.nextInt();
-                            System.out.print("Ano: ");
-                            int ano = entrada.nextInt();
-                            entrada.nextLine(); 
-                            LocalDate fecha = LocalDate.of(ano, mes, dia);
-                            System.out.print("Ingrese el motivo de consulta: ");
-                            String motivo = entrada.nextLine();
-                            System.out.print("Ingrese el diagnostico: ");
-                            String diagnostico = entrada.nextLine();
-                            System.out.print("Ingrese el tratamiento: ");
-                            String tratamiento = entrada.nextLine();
-                            mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
-                            System.out.println("Consulta agregada con exito");
-                            return;
-                        }else{
-                            System.out.println("Cancelando registro de consulta...");
-                        }
-                    } else {
-                        System.out.println("Datos de consulta:");
-                        System.out.println("Ingrese la fecha (dd/mm/aaaa)");
-                        System.out.print("Dia: ");
-                        int dia = entrada.nextInt();
-                        System.out.print("Mes: ");
-                        int mes = entrada.nextInt();
-                        System.out.print("Ano: ");
-                        int ano = entrada.nextInt();
-                        entrada.nextLine(); 
-                        LocalDate fecha = LocalDate.of(ano, mes, dia);
-                        System.out.print("Ingrese el motivo de consulta: ");
-                        String motivo = entrada.nextLine();
-                        System.out.print("Ingrese el diagnostico: ");
-                        String diagnostico = entrada.nextLine();
-                        System.out.print("Ingrese el tratamiento: ");
-                        String tratamiento = entrada.nextLine();
-                        System.out.print("Ingrese el nombre del paciente: ");
-                        String nombre = entrada.nextLine();
-                        Mascota mascota = dueno.getMascota(nombre);
-                        while (mascota == null) {
-                            System.out.println("No hay ninguna mascota registrada con ese nombre");
-                            System.out.print("Ingrese el nombre de la mascota nuevamente: ");
-                            nombre = entrada.nextLine();
-                            mascota = dueno.getMascota(nombre);
-                        }
-                        mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
-                        System.out.println("Consulta agregada con exito"); 
-                        return;
-                    }
+        System.out.print("Ingrese el numero de telefono del dueño: ");
+        long telefono = entrada.nextLong();
+        entrada.nextLine(); 
+        Dueno dueno = duenos.get(telefono);
+        if (dueno==null) {
+            System.out.println("El teléfono ingresado no pertenece a ningún dueño registrado.");
+            System.out.print("¿Desea registrar un nuevo dueño? (s/n): ");
+            opc = entrada.nextLine().trim();
+            
+            if (opc.equalsIgnoreCase("s")) {
+                telefono = registrarDueno2();
+                dueno = duenos.get(telefono);
+                //Bajo la logica dueno no va a tener mascotas, no hay necesidad dell if
+                System.out.println("No hay ninguna mascota registrada");
+                System.out.print("¿Desea registrar una nueva mascota? (s/n): ");
+                entrada.nextLine();
+                String opc2 = entrada.nextLine().trim();
+                
+                if (opc2.equalsIgnoreCase("s")) {
+                    Mascota mascota = registrarMascotaTelefono(telefono);
+                    System.out.println("Datos de consulta:");
+                    System.out.println("Ingrese la fecha (dd/mm/aaaa)");
+                    System.out.print("Dia: ");
+                    int dia = entrada.nextInt();
+                    System.out.print("Mes: ");
+                    int mes = entrada.nextInt();
+                    System.out.print("Ano: ");
+                    int ano = entrada.nextInt();
+                    entrada.nextLine(); 
+                    LocalDate fecha = LocalDate.of(ano, mes, dia);
+                    System.out.print("Ingrese el motivo de consulta: ");
+                    String motivo = entrada.nextLine();
+                    System.out.print("Ingrese el diagnostico: ");
+                    String diagnostico = entrada.nextLine();
+                    System.out.print("Ingrese el tratamiento: ");
+                    String tratamiento = entrada.nextLine();
+                    mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
+                    System.out.println("Consulta agregada con exito");
+                    return;
                 } else {
                     System.out.println("Cancelando registro de consulta...");
                     return;
                 }
-            }else{
-                if (dueno.getMascotas().isEmpty()) {
-                    System.out.println("No hay ninguna mascota registrada");
-                    System.out.print("¿Deseas registrar una nueva mascota (la de la consulta)? (s/n): ");//Se puede decidir salir o registrar un nuevo dueño.
-                    String opc2 = entrada.nextLine().trim();
-                    if(opc2.equalsIgnoreCase("s")){
+            } else {
+                System.out.println("Cancelando registro de consulta...");
+                return;
+            }
+        }else{
+            if (dueno.getMascotas().isEmpty()) {
+                System.out.println("No hay ninguna mascota registrada");
+                System.out.print("¿Desea registrar una nueva mascota? (s/n): ");//Se puede decidir salir o registrar un nuevo dueño.
+                String opc2 = entrada.nextLine().trim();
+
+                if (opc2.equalsIgnoreCase("s")) {
                         Mascota mascota=registrarMascotaTelefono(telefono);
                         System.out.println("Datos de consulta:");
                         System.out.println("Ingrese la fecha (dd/mm/aaaa)");
@@ -301,39 +274,39 @@ public static void registrarConsulta() {
                         return;//Bandera para terminar el ciclo
                     }else{
                         System.out.println("Cancelando registro de consulta...");
+                        return;
                     }
-                } else {
-                    System.out.println("Datos de consulta:");
-                    System.out.println("Ingrese la fecha (dd/mm/aaaa)");
-                    System.out.print("Dia: ");
-                    int dia = entrada.nextInt();
-                    System.out.print("Mes: ");
-                    int mes = entrada.nextInt();
-                    System.out.print("Ano: ");
-                    int ano = entrada.nextInt();
-                    entrada.nextLine();
-                    LocalDate fecha = LocalDate.of(ano, mes, dia);
-                    System.out.print("Ingrese el motivo de consulta: ");
-                    String motivo = entrada.nextLine();
-                    System.out.print("Ingrese el diagnostico: ");
-                    String diagnostico = entrada.nextLine();
-                    System.out.print("Ingrese el tratamiento: ");
-                    String tratamiento = entrada.nextLine();
-                    System.out.print("Ingrese el nombre del paciente: ");
-                    String nombre = entrada.nextLine();
-                    Mascota mascota = dueno.getMascota(nombre);
-                    while (mascota == null) {
-                        System.out.println("No hay ninguna mascota registrada con ese nombre");
-                        System.out.print("Ingrese el nombre de la mascota nuevamente: ");
-                        nombre = entrada.nextLine();
-                        mascota = dueno.getMascota(nombre);
-                    }
-                    mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
-                    System.out.println("Consulta agregada con exito"); 
-                    return;
+            } else {
+                System.out.println("Datos de consulta:");
+                System.out.println("Ingrese la fecha (dd/mm/aaaa)");
+                System.out.print("Dia: ");
+                int dia = entrada.nextInt();
+                System.out.print("Mes: ");
+                int mes = entrada.nextInt();
+                System.out.print("Ano: ");
+                int ano = entrada.nextInt();
+                entrada.nextLine();
+                LocalDate fecha = LocalDate.of(ano, mes, dia);
+                System.out.print("Ingrese el motivo de consulta: ");
+                String motivo = entrada.nextLine();
+                System.out.print("Ingrese el diagnostico: ");
+                String diagnostico = entrada.nextLine();
+                System.out.print("Ingrese el tratamiento: ");
+                String tratamiento = entrada.nextLine();
+                System.out.print("Ingrese el nombre de la mascota: ");
+                String nombre = entrada.nextLine();
+                Mascota mascota = dueno.getMascota(nombre);
+                while (mascota == null) {
+                    System.out.println("No hay ninguna mascota registrada con ese nombre");
+                    System.out.print("Ingrese el nombre de la mascota nuevamente: ");
+                    nombre = entrada.nextLine();
+                    mascota = dueno.getMascota(nombre);
                 }
+                mascota.agregarConsulta(new Consulta(fecha, motivo, diagnostico, tratamiento));
+                System.out.println("Consulta agregada con exito"); 
+                return;
             }
-        }while (opc.equalsIgnoreCase("n"));
+        }
     }
 
     public static void registrarMascota() {
