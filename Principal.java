@@ -18,8 +18,8 @@ public class Principal {
             System.out.println("3. Registrar dueño nuevo");
             System.out.println("4. Modificar registros");
             System.out.println("5. Consultar historial de consultas");
-            System.out.println("5. Consultar mascotas");
-            System.out.println("6. Consultar duenos");
+            System.out.println("6. Consultar mascotas");
+            System.out.println("7. Consultar duenos");
             System.out.println("0. Salir");
             System.out.print("Opcion: ");
             opcionM = entrada.nextInt();
@@ -70,7 +70,7 @@ public class Principal {
                                         long telefono = entrada.nextLong();
                                         Dueno dueno = duenos.get(telefono);
                                         while (dueno == null) {
-                                            System.out.println("No hay ningun dueño registrado con ese nombre");
+                                            System.out.println("No hay ningun dueño registrado con ese numero");
                                             System.out.print("Ingrese el numero de telefono del dueño: ");
                                             telefono = entrada.nextLong();
                                             dueno = duenos.get(telefono);
@@ -124,7 +124,7 @@ public class Principal {
                                         long telefono = entrada.nextLong();
                                         Dueno dueno = duenos.get(telefono);
                                         while (dueno == null) {
-                                            System.out.println("No hay ningun dueño registrado con ese nombre");
+                                            System.out.println("No hay ningun dueño registrado con ese numero");
                                             System.out.print("Ingrese el numero de telefono del dueño: ");
                                             telefono = entrada.nextLong();
                                             dueno = duenos.get(telefono);
@@ -142,21 +142,46 @@ public class Principal {
                                         Dueno dueno = duenos.get(telefono);
                                         entrada.nextLine();
                                         while (dueno == null) {
-                                            System.out.println("No hay ningun dueño registrado con ese nombre");
-                                            System.out.print("¿Desea registrar un nuevo dueño? (s/n): ");
-                                            String opc = entrada.nextLine().trim();
-                                            if (opc.equalsIgnoreCase("s")) {
-                                            }
-            
+                                            System.out.println("No hay ningun dueño registrado con ese numero");            
                                             System.out.print("Ingrese el numero de telefono del dueño: ");
                                             telefono = entrada.nextLong();
                                             dueno = duenos.get(telefono);
+                                        }
+
+                                        if (dueno.getMascotas().isEmpty()) {
+                                            System.out.println("No hay ninguna mascota registrada");
+                                        } else {
+                                            System.out.print("Ingrese el nombre de la mascota: ");
+                                            String nombre = entrada.nextLine();
+                                            Mascota mascota = dueno.getMascota(nombre);
+                                            while (mascota == null) {
+                                                System.out.println("No hay ninguna mascota registrada con ese nombre");
+                                                System.out.print("Ingrese el nombre de la mascota nuevamente: ");
+                                                nombre = entrada.nextLine();
+                                                mascota = dueno.getMascota(nombre);
+                                            }
+
+                                            System.out.println("Ingrese la fecha (dd/mm/aaaa)");
+                                            System.out.print("Dia: ");
+                                            int dia = entrada.nextInt();
+                                            System.out.print("Mes: ");
+                                            int mes = entrada.nextInt();
+                                            System.out.print("Ano: "); //Corregir la n
+                                            int ano = entrada.nextInt();
+                                            entrada.nextLine();
+                                            LocalDate fecha = LocalDate.of(ano, mes, dia);
+                                            Consulta consulta = mascota.getConsulta(fecha);
+                                            if (consulta == null) {
+                                                System.out.println("No se tiene ninguna consulta con esta fecha");
+                                            } else {
+                                                modificarConsulta(consulta);
+                                            }
                                         }
                                     }
                                     break;
 
                                 case 0:
-                                    System.out.println("Cerrando submenu");
+                                    System.out.println("Cerrando submenu...");
                             
                                 default:
                                     System.out.println("Opcion invalida");
@@ -176,7 +201,39 @@ public class Principal {
                         long telefono = entrada.nextLong();
                         Dueno dueno = duenos.get(telefono);
                         while (dueno == null) {
-                            System.out.println("No hay ningun dueño registrado con ese nombre");
+                            System.out.println("No hay ningun dueño registrado con ese numero");
+                            System.out.print("Ingrese el numero de telefono del dueño: ");
+                            telefono = entrada.nextLong();
+                            dueno = duenos.get(telefono);
+                        }
+
+                        if (dueno.getMascotas().isEmpty()) {
+                            System.out.println("No hay ninguna mascota registrada");
+                        } else {
+                            System.out.print("Ingrese el nombre de la mascota: ");
+                            String nombre = entrada.nextLine();
+                            Mascota mascota = dueno.getMascota(nombre);
+                            while (mascota == null) {
+                                System.out.println("No hay ninguna mascota registrada con ese nombre");
+                                System.out.print("Ingrese el nombre de la mascota nuevamente: ");
+                                nombre = entrada.nextLine();
+                                mascota = dueno.getMascota(nombre);
+                            }
+                            mascota.mostrarConsultas();
+                        }
+                    }
+                    break;
+
+                case 6:
+                    System.out.println();
+                    if (duenos.isEmpty()) {
+                        System.out.println("No hay duenos registrados");    
+                    } else {
+                        System.out.print("Numero de telefono de dueño: ");
+                        long telefono = entrada.nextLong();
+                        Dueno dueno = duenos.get(telefono);
+                        while (dueno == null) {
+                            System.out.println("No hay ningun dueño registrado con ese numero");
                             System.out.print("Ingrese el numero de telefono del dueño: ");
                             telefono = entrada.nextLong();
                             dueno = duenos.get(telefono);
@@ -186,11 +243,12 @@ public class Principal {
                         } else {
                             dueno.mostrarMascotas();
                         }
+
                     }
                     break;
                 
                     
-                case 6:
+                case 7:
                     System.out.println();
                     if (duenos.isEmpty()) {
                         System.out.println("No hay duenos registrados");    
@@ -384,61 +442,118 @@ public class Principal {
     }
     
     public static void modificarDireccion(Direccion direccion) {
-        System.out.println("\n----Modificador de direccion----");
-        System.out.println("1. Modificar la calle");
-        System.out.println("2. Modificar el numero exterior");
-        System.out.println("3. Modificar la colonia");
-        System.out.println("1. Modificar la alcaldia");
-        System.out.println("5. Modificar el estado");
-        System.out.println("6. Modificar el codigo postal");
-        System.out.println("0. Salir");
-        int opcion = entrada.nextInt();
-        entrada.nextLine();
+        int opcion;
+        do {
+            System.out.println("\n----Modificador de direccion----");
+            System.out.println("1. Modificar la calle");
+            System.out.println("2. Modificar el numero exterior");
+            System.out.println("3. Modificar la colonia");
+            System.out.println("4. Modificar la alcaldia");
+            System.out.println("5. Modificar el estado");
+            System.out.println("6. Modificar el codigo postal");
+            System.out.println("0. Salir");
+            opcion = entrada.nextInt();
+            entrada.nextLine();
 
-        switch (opcion) {
-            case 1:
-                System.out.println("Ingrese la calle: ");    
-                String calle = entrada.nextLine();
-                direccion.setCalle(calle);
-                break;
-        
-            case 2:
-                System.out.println("Ingrese el numero exterior ");
-                short numero = entrada.nextShort();
-                direccion.setNumero(numero);
-                break;
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese la calle: ");    
+                    String calle = entrada.nextLine();
+                    direccion.setCalle(calle);
+                    break;
             
-            case 3:
-                System.out.println("Ingrese la colonia: ");
-                String colonia = entrada.nextLine();
-                direccion.setColonia(colonia);
-                break;
-        
-            case 4:
-                System.out.println("Ingrese la alcaldia: ");
-                String alcaldia = entrada.nextLine();
-                direccion.setAlcaldia(alcaldia);
-                break;
-
-            case 5:
-                System.out.println("Ingrese el estado: ");
-                String estado = entrada.nextLine();
-                direccion.setEstado(estado);
-                break;
-
-            case 6:
-                System.out.println("Ingrese el codigo postal: ");
-                int codigoPostal = entrada.nextInt();
-                direccion.setCodigoPostal(codigoPostal);
-                break;
-
-            case 0:
-                System.out.println("Cerrando submenu...");
-                break;
+                case 2:
+                    System.out.println("Ingrese el numero exterior ");
+                    short numero = entrada.nextShort();
+                    direccion.setNumero(numero);
+                    break;
+                
+                case 3:
+                    System.out.println("Ingrese la colonia: ");
+                    String colonia = entrada.nextLine();
+                    direccion.setColonia(colonia);
+                    break;
             
-            default:
-                System.out.println("Opcion invalida");
-               break;
-        }
+                case 4:
+                    System.out.println("Ingrese la alcaldia: ");
+                    String alcaldia = entrada.nextLine();
+                    direccion.setAlcaldia(alcaldia);
+                    break;
+
+                case 5:
+                    System.out.println("Ingrese el estado: ");
+                    String estado = entrada.nextLine();
+                    direccion.setEstado(estado);
+                    break;
+
+                case 6:
+                    System.out.println("Ingrese el codigo postal: ");
+                    int codigoPostal = entrada.nextInt();
+                    direccion.setCodigoPostal(codigoPostal);
+                    break;
+
+                case 0:
+                    System.out.println("Cerrando submenu...");
+                    break;
+                
+                default:
+                    System.out.println("Opcion invalida");
+                break;
+            }
+        } while (opcion != 0);
+    }
+
+    public static void modificarConsulta(Consulta consulta) {
+        int opcion;
+        do{
+            System.out.println("\n----Modificador de consulta----");
+            System.out.println("1. Modificar la fecha");
+            System.out.println("2. Modificar el motivo");
+            System.out.println("3. Modificar el diagnostico");
+            System.out.println("4. Modificar el tratamiento");
+            System.out.println("0. Salir");
+            opcion = entrada.nextInt();
+            entrada.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese la fecha (dd/mm/aaaa)");
+                    System.out.print("Dia: ");
+                    int dia = entrada.nextInt();
+                    System.out.print("Mes: ");
+                    int mes = entrada.nextInt();
+                    System.out.print("Ano: "); //Corregir la n
+                    int ano = entrada.nextInt();
+                    LocalDate fecha = LocalDate.of(ano, mes, dia);
+                    consulta.setFecha(fecha);
+                    break;
+            
+                case 2:
+                    System.out.print("Ingrese el motivo de consulta: ");
+                    String motivo = entrada.nextLine();
+                    consulta.setMotivo(motivo);
+                    break;
+                
+                case 3:
+                    System.out.print("Ingrese el diagnostico: ");
+                    String diagnostico = entrada.nextLine();
+                    consulta.setDiagnostico(diagnostico);
+                    break;
+            
+                case 4:
+                    System.out.print("Ingrese el tratamiento: ");
+                    String tratamiento = entrada.nextLine();
+                    consulta.setTratamiento(tratamiento);
+                    break;
+
+                case 0:
+                    System.out.println("Cerrando submenu...");
+                    break;
+                
+                default:
+                    System.out.println("Opcion invalida");
+                break;
+            }
+        } while (opcion != 0);
     }
 }

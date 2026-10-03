@@ -1,5 +1,6 @@
 package datos;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Mascota {
@@ -51,9 +52,24 @@ public class Mascota {
     public ArrayList<Consulta> getConsultas() {
         return consulta;
     }
+    public Consulta getConsulta(LocalDate fecha) {
+        for (Consulta cons : consulta) {
+            if (cons.getFecha().isEqual(fecha)) {
+                return cons;
+            }
+        }
+        return null;
+    }
 
     public void agregarConsulta(Consulta consulta) {
         this.consulta.add(consulta);
+    }
+
+    public void mostrarConsultas() {
+        for (Consulta cons : consulta) {
+            cons.mostrarConsulta();
+            System.out.println();
+        }
     }
 
     public void mostrarMascota() {
