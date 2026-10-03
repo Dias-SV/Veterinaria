@@ -13,6 +13,7 @@ public class ListaDueno {
         Direccion dir = new Direccion("Rio de los Pinos",(short)346,"Bosques del Oriente","Gustavo A. Madero","Cdmx",50782);
         Dueno temp = new Dueno("Carlos", 5512345678L, dir);
         duenos.put(temp.getTelfono(), temp);
+        dir = new Direccion("Rio de los Remedios",(short)545,"Lomas del Rosario","Azcapotzalco","Cdmx",36425);
         temp = new Dueno("Leslie", 5598765432L, dir);
         duenos.put(temp.getTelfono(), temp);
     }
