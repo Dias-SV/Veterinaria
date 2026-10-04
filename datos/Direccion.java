@@ -74,7 +74,7 @@ public class Direccion {
         System.out.println("Estado: "+getEstado());
         System.out.println("C.P. "+getCodigoPostal());
     }
-    
+
     
 }
 

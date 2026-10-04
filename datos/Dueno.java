@@ -1,24 +1,25 @@
 package datos;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Dueno {
     private String nombre;
     private long telefono;
     private Direccion direccion;
-    private HashSet<Mascota> mascotas;
+    private ArrayList<Mascota> mascotas;
 
     public Dueno(String nombre, long telefono) {
         this.nombre = nombre;
         this.telefono = telefono;
-        this.mascotas = new HashSet<>();
+        this.mascotas = new ArrayList<>();
     }
 
     public Dueno(String nombre, long telefono, Direccion direcciom) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.direccion = direcciom;
-        this.mascotas = new HashSet<>();
+        this.mascotas = new ArrayList<>();
     }
 
     public void setNombre(String nombre) {
@@ -42,15 +43,15 @@ public class Dueno {
         return direccion;
     }
 
-    public void setMascotas(HashSet<Mascota> mascotas) {
+    public void setMascotas(ArrayList<Mascota> mascotas) {
         this.mascotas = mascotas;
     }
-    public HashSet<Mascota> getMascotas() {
+    public ArrayList<Mascota> getMascotas() {
         return mascotas;
     }
 
     public void agregarMascota(Mascota mascota) {
-        this.mascotas.add(mascota);;
+        this.mascotas.add(mascota);
     }
 
     public Mascota getMascota(String nombre) { //Para regresar solo una
