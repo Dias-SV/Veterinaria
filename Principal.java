@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
 import registros.*;
 import datos.*;
@@ -20,6 +21,7 @@ public class Principal {
             System.out.println("5. Consultar historial de consultas");
             System.out.println("6. Consultar mascotas");
             System.out.println("7. Consultar duenos");
+            System.out.println("8. Eliminar mascota");
             System.out.println("0. Salir");
             System.out.print("Opcion: ");
             opcionM = entrada.nextInt();
@@ -208,6 +210,26 @@ public class Principal {
                     } else {
                         ListaDueno.mostrarDuenos();
                     }
+                    break;
+                case 8:
+                    System.out.printf("Ingresa el numero de teléfono del dueño de la mascota a eliminar: ");
+                    long telefono=entrada.nextLong();
+                    entrada.nextLine();
+                    Dueno dueno = duenos.get(telefono); 
+                    while(dueno==null){
+                        System.out.println("Ese numero no está registrado, desea intentarlo de nuevo (s) o salir(n)");
+                        String opcaux=entrada.nextLine().trim();
+                        if(opcaux.equals("s")){
+                             System.out.println("Ingresa el nuevo telefono: ");
+                            telefono=entrada.nextLong();
+                            entrada.nextLine();
+                            dueno = duenos.get(telefono);
+                        }else{
+                            System.out.println("Saliendo...");
+                            break;
+                        }
+                    }
+                    eliminarMascota(dueno);
                     break;
 
                 case 0:
@@ -573,4 +595,34 @@ public class Principal {
             }
         } while (opcion != 0);
     }
+
+    public static void eliminarMascota(Dueno dueno){
+        Scanner sc=new Scanner(System.in);
+        if(dueno.getMascotas().isEmpty()){
+            System.out.println("Este número no tiene mascotas");
+            return;
+        }else{
+            System.out.println("Las mascotas registradas de este dueno son:");
+            dueno.mostrarMascotas();
+            System.out.println("Ingrese le nombre de la mascota que se eliminará: ");
+            String nombre=sc.nextLine().trim();
+            int band=0;
+            do{
+                if(!dueno.elimMascota(nombre)){
+                    System.out.println("Esa mascota no está registrada, ¿desea intentar con otro nombre?(s/n");
+                    String opcaux=sc.nextLine().trim();
+                    if(opcaux.equalsIgnoreCase("s")){
+                        System.out.println("Ingrese le nombre de la mascota que se eliminará: ");
+                        nombre=sc.nextLine().trim();
+                    }else{
+                        System.out.println("Cancelando eliminación...");
+                        return;
+                    }
+                }else{
+                    return;
+                }
+            }while(band!=1);
+        }
+    }
 }
+
