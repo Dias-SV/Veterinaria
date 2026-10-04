@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -22,6 +24,8 @@ public class Principal {
             System.out.println("6. Consultar mascotas");
             System.out.println("7. Consultar duenos");
             System.out.println("8. Eliminar mascota");
+            System.out.println("9. Agendar Cita");
+            System.out.println("10. Modificar Cita");
             System.out.println("0. Salir");
             System.out.print("Opcion: ");
             opcionM = entrada.nextInt();
@@ -202,7 +206,6 @@ public class Principal {
                     }
                     break;
                 
-                    
                 case 7:
                     System.out.println();
                     if (duenos.isEmpty()) {
@@ -230,8 +233,47 @@ public class Principal {
                         }
                     }
                     eliminarMascota(dueno);
+                break;
+                case 9:
+                    System.out.println("Ingrese el numero de telefono del dueño que agenda la cita");
+                    telefono=entrada.nextLong();
+                    entrada.nextLine();
+                    dueno = duenos.get(telefono); 
+                    while(dueno==null){
+                        System.out.println("Ese numero no está registrado, desea intentarlo de nuevo (s) o salir(n)");
+                        String opcaux=entrada.nextLine().trim();
+                        if(opcaux.equals("s")){
+                            System.out.println("Ingresa el nuevo telefono: ");
+                            telefono=entrada.nextLong();
+                            entrada.nextLine();
+                            dueno = duenos.get(telefono);
+                        }else{
+                            System.out.println("Saliendo...");
+                            break;
+                        }
+                    }
+                    registrarCita(dueno);
                     break;
-
+                case 10:
+                    System.out.println("Ingrese el numero de telefono del dueño que agenda la cita");
+                    telefono=entrada.nextLong();
+                    entrada.nextLine();
+                    dueno = duenos.get(telefono); 
+                    while(dueno==null){
+                        System.out.println("Ese numero no está registrado, desea intentarlo de nuevo (s) o salir(n)");
+                        String opcaux=entrada.nextLine().trim();
+                        if(opcaux.equals("s")){
+                            System.out.println("Ingresa el nuevo telefono: ");
+                            telefono=entrada.nextLong();
+                            entrada.nextLine();
+                            dueno = duenos.get(telefono);
+                        }else{
+                            System.out.println("Saliendo...");
+                            break;
+                        }
+                    }
+                    modificarCita(dueno);
+                break;    
                 case 0:
                     System.out.println("Cerrando programa...");
                     break;
@@ -622,6 +664,185 @@ public class Principal {
                     return;
                 }
             }while(band!=1);
+        }
+    }
+    public static void registrarCita(Dueno dueno){
+        System.out.println("Ingrese el nombre de la mascota que se atenderá en la cita:");
+        System.out.println("Las mascotas son:");
+        dueno.mostrarMascotas();
+        System.out.println("Si quiere ingresar una nueva mascota para la cita ingrese (n_mascota)");
+        Scanner sc=new Scanner(System.in);
+        String nombre=sc.nextLine().trim();
+        Mascota mascota = dueno.getMascota(nombre);
+        if (nombre.equalsIgnoreCase("n_mascota")) {
+            mascota = registrarMascota(dueno.getTelefono());
+        }else{
+            while (mascota == null) {
+                System.out.println("No hay ninguna mascota registrada con ese nombre");
+                System.out.print("Ingrese el nombre de la mascota nuevamente (o escriba salir para cancelar el registro de cita): ");
+                nombre = entrada.nextLine();
+                if(nombre.equalsIgnoreCase("salir")){
+                    System.out.println("Cancelando cita...");
+                    return;
+                }
+                mascota = dueno.getMascota(nombre);
+            }
+        }
+        System.out.println("\nIngrese los datos de la cita:");
+        System.out.println("Ingrese la fecha (dd/mm/aaaa)");
+        System.out.print("Dia: ");
+        int dia=entrada.nextInt();
+        System.out.print("Mes: ");
+        int mes=entrada.nextInt();
+        System.out.print("Ano: ");
+        int ano=entrada.nextInt();
+        entrada.nextLine();
+        LocalDate fecha=LocalDate.of(ano, mes, dia);
+        System.out.println("Ingrese la hora de la cita (formato 24h):");
+        System.out.print("Hora (0-23): ");
+        int hour=entrada.nextInt();
+        System.out.print("Minuto (0-59): ");
+        int minuto=entrada.nextInt();
+        LocalTime hora=(LocalTime.of(hour, minuto));
+        entrada.nextLine(); // Limpieza de buffer
+        System.out.print("Ingrese el motivo de la cita: ");
+        String motivo = entrada.nextLine();
+        Cita nuevaCita = new Cita(fecha, hora, motivo, dueno, mascota);
+        boolean exito = treeCitas.agregarCita(nuevaCita);
+        if (exito) {
+            System.out.println("Cita agendada exitosamente.");
+        } else {
+            System.out.println("Error: Ya existe una cita idéntica registrada a esa misma hora.");
+        }
+        
+    }
+    public static void modificarCita(Dueno dueno) {
+        boolean continuar=true;
+        while (continuar){
+            System.out.println("Ingrese de la cita a modificar (dd/mm/aaaa):");
+            System.out.print("Día: ");
+            int dia=entrada.nextInt();
+            System.out.print("Mes: ");
+            int mes=entrada.nextInt();
+            System.out.print("Año: ");
+            int ano=entrada.nextInt();
+            entrada.nextLine(); // Limpieza de buffer
+            LocalDate fechaBusqueda=LocalDate.of(ano, mes, dia);
+            //las citas de esa fecha
+            ArrayList<Cita> citasDelDia=treeCitas.buscarCitasPorFecha(fechaBusqueda);
+            //de esas, sleccionamos las de ese dueño
+            ArrayList<Cita> citasIndexadas=new ArrayList<>();
+            for (Cita c:citasDelDia) {
+                if (c.getDueno().getTelefono()==dueno.getTelefono()) {
+                    citasIndexadas.add(c);
+                }
+            }
+
+            if (citasIndexadas.isEmpty()){
+                System.out.println("\nNo existen citas registradas para este dueño en la fecha ("+ fechaBusqueda +")");
+                System.out.println("¿Desea intentarlo de nuevo con otra fecha (s) o salir (n)?");
+                System.out.print("Opción: ");
+                String opcAux=entrada.nextLine().trim();
+                if (!opcAux.equalsIgnoreCase("s")){
+                    System.out.println("Saliendo de modificación de cita...");
+                    return;
+                }
+            } else {
+                //Se encontraron citas
+                continuar = false;
+                
+                //citas encontradas con su índice
+                System.out.println("\nCitas encontradas para el " + fechaBusqueda + ":");
+                for (int i = 0; i < citasIndexadas.size(); i++) {
+                    System.out.println("\nÍndice [" + (i + 1) + "]");
+                    citasIndexadas.get(i).mostrarCita();
+                }
+                
+                //Seleccionar la cita por índice
+                System.out.print("\nIngrese el número de índice de la cita que desea modificar: ");
+                int indiceSeleccionado = entrada.nextInt();
+                entrada.nextLine();
+                //cita auxiliar que servirá para reemplazar la antigua
+                Cita citaAModificar = citasIndexadas.get(indiceSeleccionado-1);
+
+                // Removemos la cita del TreeSet antes de cambiar datos
+                //paso necesario ya que sino, con los nuevos datos, romperíamos totalmente el ordenamiento del treeSet
+                treeCitas.getCitas().remove(citaAModificar);
+
+                //Seleccion de datos a modificar
+                int opcionSubmenu;
+                do {
+                    System.out.println("1. Modificar Fecha");
+                    System.out.println("2. Modificar Hora");
+                    System.out.println("3. Modificar Motivo");
+                    System.out.println("4. Modificar Mascota");
+                    System.out.println("0. Guardar y Salir");
+                    System.out.print("Opción: ");
+                    opcionSubmenu = entrada.nextInt();
+                    entrada.nextLine();
+                    switch (opcionSubmenu) {
+                        case 1:
+                            System.out.println("\nIngrese la nueva fecha (dd/mm/aaaa):");
+                            System.out.print("Día: ");
+                            int nDia = entrada.nextInt();
+                            System.out.print("Mes: ");
+                            int nMes = entrada.nextInt();
+                            System.out.print("Año: ");
+                            int nAno = entrada.nextInt();
+                            entrada.nextLine();
+                            citaAModificar.setFecha(LocalDate.of(nAno, nMes, nDia));
+                            System.out.println("Fecha actualizada correctamente.");
+                            break;
+                        case 2:
+                            System.out.println("\nIngrese la nueva hora (formato 24h):");
+                            System.out.print("Hora (0-23): ");
+                            int nHora=entrada.nextInt();
+                            System.out.print("Minuto (0-59): ");
+                            int nMin=entrada.nextInt();
+                            entrada.nextLine();
+                            citaAModificar.setHora(LocalTime.of(nHora, nMin));
+                            System.out.println("Hora actualizada correctamente.");
+                            break;
+
+                        case 3:
+                            System.out.print("\nIngrese el nuevo motivo: ");
+                            String nMotivo=entrada.nextLine();
+                            citaAModificar.setMotivo(nMotivo);
+                            System.out.println("Motivo actualizado correctamente.");
+                            break;
+
+                        case 4:
+                            System.out.println("\nMascotas registradas del dueño:");
+                            dueno.mostrarMascotas();
+                            System.out.print("Ingrese el nombre de la nueva mascota para la cita: ");
+                            String nNombreMascota=entrada.nextLine().trim();
+                            Mascota nMascota = dueno.getMascota(nNombreMascota);
+                            if (nMascota!=null){
+                                citaAModificar.setMascota(nMascota);
+                                System.out.println("Mascota actualizada correctamente.");
+                            } else{
+                                System.out.println("No se encontró esa mascota en los datos de su dueño. Se conservó la anterior.");
+                            }
+                            break;
+                        case 0:
+                            System.out.println("Guardando cambios...");
+                            //se reinsertará la cita original
+                            break;
+
+                        default:
+                            System.out.println("Opción inválida.");
+                            break;
+                    }
+                } while (opcionSubmenu != 0);
+
+                //Reinsertar cita actualizada al TreeSet
+                boolean exito=treeCitas.agregarCita(citaAModificar);
+                if (exito){
+                    System.out.println("\nCita modificada y reordenada");
+                } else{
+                    System.out.println("Error: Ya existe una cita idéntica registrada con ese atributo.");
+                }
+            }
         }
     }
 }
