@@ -1,7 +1,6 @@
 package datos;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class Dueno {
