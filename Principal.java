@@ -29,7 +29,7 @@ public class Principal {
             System.out.println("0. Salir");
             System.out.print("Opcion: ");
             opcionM = entrada.nextInt();
-            //La lectura de buffer provocaba doble lectura de datos
+            entrada.nextLine();
             switch (opcionM) {
                 case 1:
                     System.out.println();
@@ -47,11 +47,13 @@ public class Principal {
                     } else {
                         System.out.print("Numero de telefono de dueño: ");
                         long telefono = entrada.nextLong();
+                        entrada.nextLine();
                         Dueno dueno = duenos.get(telefono);
                         while (dueno == null) {
                             System.out.println("No hay ningun dueño registrado con ese numero");
                             System.out.print("Ingrese el numero de telefono del dueño: ");
                             telefono = entrada.nextLong();
+                            entrada.nextLine();
                             dueno = duenos.get(telefono);
                         }
                         registrarMascota(telefono);
@@ -70,11 +72,13 @@ public class Principal {
                     } else {
                         System.out.print("Numero de telefono de dueño: ");
                         long telefono = entrada.nextLong();
+                        entrada.nextLine();
                         Dueno dueno = duenos.get(telefono);
                         while (dueno == null) {
                             System.out.println("No hay ningun dueño registrado con ese numero");
                             System.out.print("Ingrese el numero de telefono del dueño: ");
                             telefono = entrada.nextLong();
+                            entrada.nextLine();
                             dueno = duenos.get(telefono);
                         }
 
@@ -127,7 +131,7 @@ public class Principal {
                                         int dia = entrada.nextInt();
                                         System.out.print("Mes: ");
                                         int mes = entrada.nextInt();
-                                        System.out.print("Ano: "); //Corregir la n
+                                        System.out.print("Año: ");
                                         int ano = entrada.nextInt();
                                         entrada.nextLine();
                                         LocalDate fecha = LocalDate.of(ano, mes, dia);
@@ -158,11 +162,13 @@ public class Principal {
                     } else {
                         System.out.print("Numero de telefono de dueño: ");
                         long telefono = entrada.nextLong();
+                        entrada.nextLine();
                         Dueno dueno = duenos.get(telefono);
                         while (dueno == null) {
                             System.out.println("No hay ningun dueño registrado con ese numero");
                             System.out.print("Ingrese el numero de telefono del dueño: ");
                             telefono = entrada.nextLong();
+                            entrada.nextLine();
                             dueno = duenos.get(telefono);
                         }
 
@@ -190,11 +196,13 @@ public class Principal {
                     } else {
                         System.out.print("Numero de telefono de dueño: ");
                         long telefono = entrada.nextLong();
+                        entrada.nextLine();
                         Dueno dueno = duenos.get(telefono);
                         while (dueno == null) {
                             System.out.println("No hay ningun dueño registrado con ese numero");
                             System.out.print("Ingrese el numero de telefono del dueño: ");
                             telefono = entrada.nextLong();
+                            entrada.nextLine();
                             dueno = duenos.get(telefono);
                         }
                         if (dueno.getMascotas().isEmpty()) {
@@ -223,7 +231,7 @@ public class Principal {
                         System.out.println("Ese numero no está registrado, desea intentarlo de nuevo (s) o salir(n)");
                         String opcaux=entrada.nextLine().trim();
                         if(opcaux.equals("s")){
-                             System.out.println("Ingresa el nuevo telefono: ");
+                            System.out.println("Ingresa el nuevo telefono: ");
                             telefono=entrada.nextLong();
                             entrada.nextLine();
                             dueno = duenos.get(telefono);
@@ -356,7 +364,7 @@ public class Principal {
         int dia = entrada.nextInt();
         System.out.print("Mes: ");
         int mes = entrada.nextInt();
-        System.out.print("Ano: "); //Corregir la n
+        System.out.print("Año: ");
         int ano = entrada.nextInt();
         entrada.nextLine(); // Limpieza necesaria tras la lectura numérica de la fecha
         LocalDate fecha = LocalDate.of(ano, mes, dia);
@@ -427,7 +435,7 @@ public class Principal {
         String estado = entrada.nextLine();
         System.out.println("Ingrese el codigo postal: ");
         int codigoPostal = entrada.nextInt();
-        
+        entrada.nextLine();
         return new Direccion(calle, numero, colonia, alcaldia, estado, codigoPostal);
     }
 
@@ -453,6 +461,7 @@ public class Principal {
                 case 2:
                     System.out.println("Inserte el nuevo telefono: ");
                     long numero = entrada.nextLong();
+                    entrada.nextLine();
                     dueno.setTelefono(numero);;
                     System.out.println("Telefono modificado correctamente");
                     break;
@@ -497,6 +506,7 @@ public class Principal {
                 case 2:
                     System.out.println("Ingrese el numero exterior ");
                     short numero = entrada.nextShort();
+                    entrada.nextLine();
                     direccion.setNumero(numero);
                     break;
                 
@@ -521,6 +531,7 @@ public class Principal {
                 case 6:
                     System.out.println("Ingrese el codigo postal: ");
                     int codigoPostal = entrada.nextInt();
+                    entrada.nextLine();
                     direccion.setCodigoPostal(codigoPostal);
                     break;
 
@@ -570,6 +581,7 @@ public class Principal {
                 case 4:
                     System.out.print("Ingrese la edad: ");
                     byte edad = entrada.nextByte();
+                    entrada.nextLine();
                     mascota.setEdad(edad);
                     break;
 
@@ -603,8 +615,9 @@ public class Principal {
                     int dia = entrada.nextInt();
                     System.out.print("Mes: ");
                     int mes = entrada.nextInt();
-                    System.out.print("Ano: "); //Corregir la n
+                    System.out.print("Año: ");
                     int ano = entrada.nextInt();
+                    entrada.nextLine();
                     LocalDate fecha = LocalDate.of(ano, mes, dia);
                     consulta.setFecha(fecha);
                     break;
@@ -639,7 +652,6 @@ public class Principal {
     }
 
     public static void eliminarMascota(Dueno dueno){
-        Scanner sc=new Scanner(System.in);
         if(dueno.getMascotas().isEmpty()){
             System.out.println("Este número no tiene mascotas");
             return;
@@ -647,15 +659,15 @@ public class Principal {
             System.out.println("Las mascotas registradas de este dueno son:");
             dueno.mostrarMascotas();
             System.out.println("Ingrese le nombre de la mascota que se eliminará: ");
-            String nombre=sc.nextLine().trim();
+            String nombre=entrada.nextLine().trim();
             int band=0;
             do{
                 if(!dueno.elimMascota(nombre)){
                     System.out.println("Esa mascota no está registrada, ¿desea intentar con otro nombre?(s/n");
-                    String opcaux=sc.nextLine().trim();
+                    String opcaux=entrada.nextLine().trim();
                     if(opcaux.equalsIgnoreCase("s")){
                         System.out.println("Ingrese le nombre de la mascota que se eliminará: ");
-                        nombre=sc.nextLine().trim();
+                        nombre=entrada.nextLine().trim();
                     }else{
                         System.out.println("Cancelando eliminación...");
                         return;
@@ -671,8 +683,7 @@ public class Principal {
         System.out.println("Las mascotas son:");
         dueno.mostrarMascotas();
         System.out.println("Si quiere ingresar una nueva mascota para la cita ingrese (n_mascota)");
-        Scanner sc=new Scanner(System.in);
-        String nombre=sc.nextLine().trim();
+        String nombre=entrada.nextLine().trim();
         Mascota mascota = dueno.getMascota(nombre);
         if (nombre.equalsIgnoreCase("n_mascota")) {
             mascota = registrarMascota(dueno.getTelefono());
@@ -694,7 +705,7 @@ public class Principal {
         int dia=entrada.nextInt();
         System.out.print("Mes: ");
         int mes=entrada.nextInt();
-        System.out.print("Ano: ");
+        System.out.print("Año: ");
         int ano=entrada.nextInt();
         entrada.nextLine();
         LocalDate fecha=LocalDate.of(ano, mes, dia);
