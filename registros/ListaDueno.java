@@ -3,7 +3,6 @@ package registros;
 import java.util.HashMap;
 import java.util.Map;
 
-import datos.Direccion;
 import datos.Dueno;
 
 public class ListaDueno {
@@ -14,7 +13,7 @@ public class ListaDueno {
     }
 
     public static void agregarDueno(Dueno dueno) {
-        duenos.put(dueno.getTelfono(), dueno);
+        duenos.put(dueno.getTelefono(), dueno);
     }
 
     public static void mostrarDuenos() {
