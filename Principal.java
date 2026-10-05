@@ -29,7 +29,6 @@ public class Principal {
             System.out.println("0. Salir");
             System.out.print("Opcion: ");
             opcionM = entrada.nextInt();
-            entrada.nextLine();
             switch (opcionM) {
                 case 1:
                     System.out.println();
