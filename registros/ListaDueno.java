@@ -22,4 +22,18 @@ public class ListaDueno {
             System.out.println();
         }
     }
+
+    public static boolean cambiarTelefono(Dueno dueno, long nuevoTelefono) {
+        if (existeTelefono(nuevoTelefono)) {
+            return false;
+        }
+        duenos.remove(dueno.getTelefono());
+        dueno.setTelefono(nuevoTelefono);
+        duenos.put(nuevoTelefono, dueno);
+        return true;
+    }
+
+    public static boolean existeTelefono(long telefono) {
+    return duenos.containsKey(telefono);
+}
 }
